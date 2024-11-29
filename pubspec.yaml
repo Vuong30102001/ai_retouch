@@ -41,6 +41,7 @@ dependencies:
   bloc: ^8.1.4
   equatable: ^2.0.7
   provider: ^6.1.2
+  gap: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -58,8 +59,13 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+    - assets/images/pro.png
   fonts:
     - family: PlusJakartaSans
       fonts:
         - asset: assets/fonts/PlusJakartaSans-VariableFont_wght.ttf
+    - family: PlusJakartaSans-Italic
+      fonts:
+        - asset: assets/fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf
   uses-material-design: true
