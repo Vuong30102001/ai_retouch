@@ -1,3 +1,6 @@
+import 'package:ai_retouch/core/routing/app_router.dart';
+import 'package:ai_retouch/features/pro_button/presentation/widget/pro_image.dart';
+import 'package:ai_retouch/features/pro_button/presentation/widget/pro_text.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -10,14 +13,7 @@ class ProButtonWidget extends StatelessWidget {
       top: 56,
       left: 235,
       child: GestureDetector(
-        onTap: (){
-          Navigator.push(
-            context, 
-            MaterialPageRoute(
-                builder: (context) => Container(color: Colors.blue,),
-            )
-          );
-        },
+        onTap: () => AppRouter.navigatorToProPage(context),
       child: Container(
         width: 78,
         height: 32,
@@ -59,36 +55,10 @@ class ProButtonWidget extends StatelessWidget {
                         width: 1,
                       ),
                     ),
-                    child: Stack(
+                    child: const Stack(
                       children: [
-                        Positioned(
-                          top: 2.87,
-                          left: 0.03,
-                          child: Image.asset(
-                            'assets/images/pro.png',
-                            width: 15.87  ,
-                            height: 13.13,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        Positioned(
-                          right: 0,
-                          bottom: 0,
-                          top: 0,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              'PRO',
-                              style: TextStyle(
-                                fontFamily: 'PlusJakartaSans-Italic',
-                                fontWeight: FontWeight.w800,
-                                height: 20/14,
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        )
+                        ProImage(),
+                        ProText(),
                       ],
                     )
                   ),
