@@ -1,3 +1,4 @@
+import 'package:ai_retouch/features/setting_button/presentation/widget/setting_button_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../app_name/presentation/widget/app_name_widget.dart';
@@ -13,6 +14,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           AppNameWidget(),
           ProButtonWidget(),
+          SettingButtonWidget(),
         ],
       ),
     );
