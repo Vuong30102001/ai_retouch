@@ -13,6 +13,7 @@ class AppName extends StatelessWidget {
         fontSize: 22,
         height: 32 / 22, // Line height
         letterSpacing: -0.5, // Khoảng cách chữ
+        color: Color(0xFFFFFFFF),
       ),
     );
   }
