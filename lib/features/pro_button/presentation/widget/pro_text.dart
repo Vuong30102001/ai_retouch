@@ -6,17 +6,20 @@ class ProText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 31.w,
-      height: 10.w,
-      child: Text(
-        'PRO',
-        style: TextStyle(
-          fontFamily: 'PlusJakartaSans-Italic',
-          fontWeight: FontWeight.w800,
-          // height: 20/14,
-          color: Colors.white,
-          fontSize: 14.sp,
+    return Align(
+      alignment: Alignment.centerRight,
+      child: FittedBox(
+        fit: BoxFit.cover,
+        child: Text(
+          'PRO',
+          style: TextStyle(
+            fontFamily: 'PlusJakartaSans-Italic',
+            fontWeight: FontWeight.w800,
+            // height: 20/14,
+            color: Colors.white,
+            fontSize: 14.sp,
+          ),
+          textAlign: TextAlign.end,
         ),
       ),
     );

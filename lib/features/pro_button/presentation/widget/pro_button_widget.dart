@@ -3,7 +3,6 @@ import 'package:ai_retouch/features/pro_button/presentation/widget/pro_image.dar
 import 'package:ai_retouch/features/pro_button/presentation/widget/pro_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
 
 class ProButtonWidget extends StatelessWidget {
   const ProButtonWidget({super.key});
@@ -11,80 +10,69 @@ class ProButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        top: 56.w,
-        left: 235.w,
-        child: GestureDetector(
-            onTap: () => AppRouter.navigatorToProPage(context),
-            child: Container(
-                width: 78.w,
-                height: 32.w,
+      top: 56.w,
+      left: 235.w,
+      child: GestureDetector(
+        onTap: () => AppRouter.navigatorToProPage(context),
+        child: Container(
+          width: 78.w,
+          height: 32.w,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF6E2AFF),
+                Color(0xFF2AB2FF),
+                Color(0xFF2AFFF2),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.all(1),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFF6E2AFF),
-                      Color(0xFF2AB2FF),
-                      Color(0xFF2AFFF2),
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(24),
                 ),
-                child: Stack(
-                    alignment: Alignment.center,
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: 53.w,
+                  height: 16.w,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: EdgeInsets.all(1),
-                        decoration: BoxDecoration(
-                          color: Theme
-                              .of(context)
-                              .scaffoldBackgroundColor,
-                          borderRadius: BorderRadius.circular(24),
+                      // Thay đổi cấu trúc của Container và Row
+                      SizedBox(
+                        width: 16.w,
+                        height: 16.w,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            top: 2.87.w,
+                            left: 0.03.w,
+                          ),
+                          child: const ProImage(), // Dùng ProImage bên trong container
                         ),
                       ),
-                      Positioned(
-                          top: 8.w,
-                          left: 12.w,
-                          child: Container(
-                            width: 53.w,
-                            height: 16.w,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                // color: Theme.of(context).scaffoldBackgroundColor,
-                                color: Colors.white,
-                                width: 1,
-                              ),
-                            ),
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                    top: 2.87.w,
-                                    left: 0.03.w,
-                                  child: Container(
-                                    width: 16.w,
-                                    height: 16.w,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.white,
-                                        width: 1,
-                                      )
-                                    ),
-                                    child: const ProImage(),
-                                  ),
-                                ),
-                                const Align(
-                                      alignment: Alignment.centerRight,
-                                      child: ProText(),
-                                    ),
-                              ],
-                            ),
-                          )
+                      // Thêm ProText bên cạnh ProImage mà không cần SizedBox
+                      SizedBox(
+                        width: 31.w,
+                        height: 10.w,
+                        child: const ProText(),
                       )
-                    ]
-                )
-            )
-        )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
-
