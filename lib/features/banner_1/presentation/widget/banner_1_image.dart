@@ -9,26 +9,18 @@ class Banner1Image extends StatelessWidget {
     return Positioned(
       top: 115.14.w,
       left: 144.w,
-      child: Container(
-        width: 105.w,
-        height: 129.w,
-        decoration: BoxDecoration(
-          color: Color(0xFFFFFFFF).withOpacity(0.2),
+      child: Transform.rotate(
+        angle: degreeToRadian(-6.64),
+        child: ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            width: 3.w,
-            color: Color(0xFFFFFFFF).withOpacity(0.2),
-          ),
-        ),
-        child: Transform.rotate(
-          angle: degreeToRadian(6.64),
           child: Image.asset(
-            'assets/images/image_banner_1.png',
-            width: 105.w,
-            height: 129.w,
+              'assets/images/image_banner_1.png',
+              width: 105.w,
+              height: 129.w,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
-      ),
     );
   }
 }
