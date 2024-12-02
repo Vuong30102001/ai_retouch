@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SettingButton extends StatelessWidget {
   const SettingButton({super.key});
@@ -7,8 +8,8 @@ class SettingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
         'assets/images/Vector.png',
-        width: 14.33,
-        height: 13,
+        width: 14.33.w,
+        height: 13.w,
     );
   }
 }

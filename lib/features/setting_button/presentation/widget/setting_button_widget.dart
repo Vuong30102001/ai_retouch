@@ -1,5 +1,6 @@
 import 'package:ai_retouch/features/setting_button/presentation/widget/setting_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SettingButtonWidget extends StatelessWidget {
   const SettingButtonWidget({super.key});
@@ -9,30 +10,30 @@ class SettingButtonWidget extends StatelessWidget {
     return Stack(
       children: [
         Positioned(
-          top: 56,
-          left: 325,
+          top: 56.w,
+          left: 325.w,
           child: Stack(
             children: [
               Container(
-                width: 32,
-                height: 32,
+                width: 32.w,
+                height: 32.w,
                 decoration: BoxDecoration(
                   color: const Color(0xFFFFFFFF).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
               Positioned(
-                  top: 8,
-                  left: 8,
+                  top: 8.w,
+                  left: 8.w,
                   child: Stack(
                     children: [
                       Container(
-                        width: 16,
-                        height: 16,
+                        width: 16.w,
+                        height: 16.w,
                       ),
                       Positioned(
-                          top: 1.5,
-                          left: 0.83,
+                          top: 1.5.w,
+                          left: 0.83.w,
                           child: SettingButton()
                       )
                     ],
