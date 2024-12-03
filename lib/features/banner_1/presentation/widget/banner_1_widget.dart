@@ -1,4 +1,6 @@
 import 'package:ai_retouch/features/banner_1/presentation/widget/banner_1_image.dart';
+import 'package:ai_retouch/features/banner_1/presentation/widget/banner_button.dart';
+import 'package:ai_retouch/features/banner_1/presentation/widget/banner_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,22 +17,17 @@ class Banner1Widget extends StatelessWidget {
           child: Container(
             width: 335.w,
             height: 250.w,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFFFFFFFF),
-                  Color(0xFF737373),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              )
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
             ),
-            child: Stack(
+            child: const Stack(
               children: [
                 Banner1Image(),
+                BannerText(),
+                BannerButton(),
               ],
-            ),
-          ),
+            )
+          )
         )
       ],
     );

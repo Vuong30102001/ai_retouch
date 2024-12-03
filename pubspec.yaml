@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.1.2
   gap: ^3.0.1
   flutter_screenutil: ^5.9.3
+  stroke_text: ^0.0.3
 
 dev_dependencies:
   flutter_test:
@@ -63,7 +64,7 @@ flutter:
   assets:
     - assets/images/pro.png
     - assets/images/Vector.png
-    - assets/images/image_banner_1.png
+    - assets/images/banner_1_image.png
   fonts:
     - family: PlusJakartaSans
       fonts:
@@ -71,4 +72,7 @@ flutter:
     - family: PlusJakartaSans-Italic
       fonts:
         - asset: assets/fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf
+    - family: BeckyTahlia
+      fonts:
+        - asset: assets/fonts/BeckyTahlia-MP6r.ttf
   uses-material-design: true

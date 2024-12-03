@@ -1,7 +1,8 @@
-import 'package:ai_retouch/core/routing/app_router.dart';
+import 'package:ai_retouch/features/pro_button/presentation/bloc/cubit/subscription_cubit.dart';
 import 'package:ai_retouch/features/pro_button/presentation/widget/pro_image.dart';
 import 'package:ai_retouch/features/pro_button/presentation/widget/pro_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProButtonWidget extends StatelessWidget {
@@ -13,7 +14,9 @@ class ProButtonWidget extends StatelessWidget {
       top: 56.w,
       left: 235.w,
       child: GestureDetector(
-        onTap: () => AppRouter.navigatorToProPage(context),
+        onTap: () {
+          context.read<SubscriptionCubit>().navigatorToPage(context, 'subscription');
+        },
         child: Container(
           width: 78.w,
           height: 32.w,
