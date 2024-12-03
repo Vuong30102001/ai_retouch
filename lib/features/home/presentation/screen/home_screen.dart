@@ -1,4 +1,5 @@
 import 'package:ai_retouch/features/banner_1/presentation/widget/banner_1_widget.dart';
+import 'package:ai_retouch/features/enhance_photo/presentation/widget/enhance_photo_widget.dart';
 import 'package:ai_retouch/features/setting_button/presentation/widget/setting_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +19,7 @@ class HomeScreen extends StatelessWidget {
           ProButtonWidget(),
           SettingButtonWidget(),
           Banner1Widget(),
+          EnhancePhotoWidget(),
         ],
       ),
     );
