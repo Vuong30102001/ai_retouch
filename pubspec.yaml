@@ -66,6 +66,16 @@ flutter:
     - assets/images/Vector.png
     - assets/images/banner_1_image.png
     - assets/images/icon_enhance_photo.png
+    - assets/images/icon_remove_object.png
+    - assets/images/icon_remove_background.png
+    - assets/images/icon_touch_remove.png
+    - assets/images/icon_restore_old_pic.png
+    - assets/images/icon_remove_wire.png
+    - assets/images/icon_remove_text.png
+    - assets/images/icon_cartoon_ai.png
+    - assets/images/icon_anime_ai.png
+    - assets/images/icon_ai_filter.png
+
   fonts:
     - family: PlusJakartaSans
       fonts:
