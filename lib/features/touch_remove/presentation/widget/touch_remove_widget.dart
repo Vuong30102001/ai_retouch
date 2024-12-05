@@ -6,9 +6,11 @@ class TouchRemoveWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 480.w,
-      left: 192.w,
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 480.w,
+        left: 192.w,
+      ),
       child: Container(
           width: 163.w,
           height: 98.w,

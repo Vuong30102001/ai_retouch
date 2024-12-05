@@ -7,9 +7,11 @@ class AppNameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 56.w,
-      left: 20.w,
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 56.w,
+        left: 20.w,
+      ),
       child: Container(
         width: 112.w,
         height: 32.w,

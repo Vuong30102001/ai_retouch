@@ -9,27 +9,25 @@ class Banner1Widget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          top: 100.w,
-          left: 20.w,
-          child: Container(
-            width: 335.w,
-            height: 250.w,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Stack(
-              children: [
-                Banner1Image(),
-                BannerText(),
-                BannerButton(),
-              ],
-            )
-          )
-        )
-      ],
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 100.w,
+        left: 20.w,
+      ),
+      child: Container(
+        width: 335.w,
+        height: 250.w,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Stack(
+          children: const [
+            Banner1Image(),
+            BannerText(),
+            BannerButton(),
+          ],
+        ),
+      ),
     );
   }
 }

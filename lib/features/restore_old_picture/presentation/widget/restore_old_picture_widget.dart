@@ -6,9 +6,11 @@ class RestoreOldPictureWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 602.w,
-      left: 20.w,
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 602.w,
+        left: 20.w,
+      ),
       child: Container(
         width: 101.w,
         height: 64.w,

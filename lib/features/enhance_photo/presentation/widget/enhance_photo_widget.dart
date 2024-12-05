@@ -6,9 +6,11 @@ class EnhancePhotoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
+    return Padding(
+      padding: EdgeInsets.only(
         top: 480.w,
         left: 20.w,
+      ),
         child: Container(
             width: 163.w,
             height: 98.w,
