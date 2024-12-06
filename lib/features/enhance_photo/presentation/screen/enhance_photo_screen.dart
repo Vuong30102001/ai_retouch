@@ -4,12 +4,19 @@ import 'package:ai_retouch/features/enhance_photo/domain/entities/image_entity.d
 import 'package:ai_retouch/features/enhance_photo/presentation/bloc/state/image_state.dart';
 import 'package:ai_retouch/features/enhance_photo/presentation/bloc/cubit/image_cubit.dart';
 
-class EnhancePhotoScreen extends StatelessWidget {
+class EnhancePhotoScreen extends StatefulWidget {
+  const EnhancePhotoScreen({super.key});
+
+  @override
+  _EnhancePhotoScreenState createState() => _EnhancePhotoScreenState();
+}
+
+class _EnhancePhotoScreenState extends State<EnhancePhotoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Enhance Photo'),
+        title: Text('Enhance Photo'),
       ),
       body: BlocProvider(
         create: (context) => ImageCubit(
@@ -27,8 +34,8 @@ class EnhancePhotoScreen extends StatelessWidget {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.memory(state.image.bytes),
-                  SizedBox(height: 20),
+                  Image.memory(state.image.bytes),  // Show picked image
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () => _smoothImage(context, state.image),
                     child: const Text('Smooth Image'),
@@ -40,12 +47,13 @@ class EnhancePhotoScreen extends StatelessWidget {
                 ],
               );
             } else {
-              return Center(
-                child: ElevatedButton(
-                  onPressed: () => _pickImage(context),
-                  child: const Text('Pick Image'),
-                ),
-              );
+              // Automatically pick an image when the screen is loaded
+              Future.delayed(Duration.zero, () {
+                if (mounted) {
+                  _pickImage(context);  // Ensure context is still valid
+                }
+              });
+              return const Center(child: CircularProgressIndicator());
             }
           },
         ),
@@ -55,16 +63,22 @@ class EnhancePhotoScreen extends StatelessWidget {
 
   // Pick an image
   Future<void> _pickImage(BuildContext context) async {
-    context.read<ImageCubit>().pickImage();
+    if (mounted) { // Check if the widget is still mounted before using the context
+      context.read<ImageCubit>().pickImage();
+    }
   }
 
   // Apply smooth filter
   Future<void> _smoothImage(BuildContext context, ImageEntity image) async {
-    context.read<ImageCubit>().smoothImage(image);
+    if (mounted) { // Check if the widget is still mounted before using the context
+      context.read<ImageCubit>().smoothImage(image);
+    }
   }
 
   // Save the image
   Future<void> _saveImage(BuildContext context, ImageEntity image) async {
-    context.read<ImageCubit>().saveImage(image);
+    if (mounted) { // Check if the widget is still mounted before using the context
+      context.read<ImageCubit>().saveImage(image);
+    }
   }
 }
