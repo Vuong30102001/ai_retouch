@@ -1,6 +1,9 @@
+import 'package:ai_retouch/features/enhance_photo/domain/entities/media_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'dart:typed_data';
+
+import 'enhance_photo_screen.dart';
 
 class AlbumMediaScreen extends StatefulWidget {
   @override
@@ -135,23 +138,33 @@ class _AlbumMediaScreenState extends State<AlbumMediaScreen> {
               ),
               itemBuilder: (context, index) {
                 final media = mediaList[index];
-                return FutureBuilder<Uint8List?>(
-                  future: media.thumbnailDataWithSize(
-                    const ThumbnailSize(200, 200),
-                  ),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done &&
-                        snapshot.hasData) {
-                      return Image.memory(
-                        snapshot.data!,
-                        fit: BoxFit.cover,
-                      );
-                    }
-                    return const Center(child: CircularProgressIndicator());
+                return GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EnhancePhotoScreen(media: media),
+                        )
+                    );
                   },
+                  child: FutureBuilder<Uint8List?>(
+                    future: media.thumbnailDataWithSize(
+                      const ThumbnailSize(200, 200),
+                    ),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done &&
+                          snapshot.hasData) {
+                        return Image.memory(
+                          snapshot.data!,
+                          fit: BoxFit.cover,
+                        );
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                  ),
                 );
               },
-            ),
+            )
           ),
         ],
       ),
