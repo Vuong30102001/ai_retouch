@@ -1,9 +1,8 @@
-import 'package:ai_retouch/features/enhance_photo/domain/entities/media_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'dart:typed_data';
 
-import 'enhance_photo_screen.dart';
+import 'original_photo_screen.dart';
 
 class AlbumMediaScreen extends StatefulWidget {
   @override
@@ -143,7 +142,7 @@ class _AlbumMediaScreenState extends State<AlbumMediaScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EnhancePhotoScreen(media: media),
+                          builder: (context) => OriginalPhotoScreen(media: media),
                         )
                     );
                   },
