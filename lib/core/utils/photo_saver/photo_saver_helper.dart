@@ -7,20 +7,23 @@ class PhotoSaverHelper{
       BuildContext context,
       Uint8List imageBytes,
       String fileName, {
-        String albumName = "MyAppImages",
+        String albumName = "AiRetouch",
       }) async {
     try {
       // Save image directly from Uint8List using the Gal.putImageBytes method
-      await Gal.putImageBytes(imageBytes, album: albumName);  // Don't check return value
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Image saved to gallery!')),
-      );
+      await Gal.putImageBytes(imageBytes, album: albumName);
+      if(context.mounted){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Image saved to gallery!')),
+        );
+      }
     } catch (e) {
       print('Error saving image bytes: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An error occurred while saving the image!')),
-      );
+      if(context.mounted){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('An error occurred while saving the image!')),
+        );
+      }
     }
   }
 }

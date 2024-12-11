@@ -105,6 +105,7 @@ class _AlbumMediaScreenState extends State<AlbumMediaScreen> {
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
+                      color: isSelected ? Colors.blue.withOpacity(0.5) : Colors.transparent,
                     ),
                     child: Center(
                       child: Text(

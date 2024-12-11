@@ -87,7 +87,30 @@ class _EnhancePhotoScreenState extends State<EnhancePhotoScreen> {
                     padding: EdgeInsets.only(left: 16.w, bottom: 10.w),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Confirm exit!'),
+                              content: Text('Select yes to exit'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('No'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Yes'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       },
                       child: Icon(
                         Icons.dangerous_outlined,
