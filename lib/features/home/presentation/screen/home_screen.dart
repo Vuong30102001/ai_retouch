@@ -25,7 +25,11 @@ class HomeScreen extends StatelessWidget {
       body: Stack(
         children: [
           AppNameWidget(),
-          ProButtonWidget(),
+          Positioned(
+            top: 56.w,
+            left: 235.w,
+            child: ProButtonWidget(),
+          ),
           SettingButtonWidget(),
           Banner1Widget(),
           EnhancePhotoWidget(),

@@ -44,10 +44,12 @@ dependencies:
   stroke_text: ^0.0.3
   image_picker: ^1.1.2
   dio: ^5.7.0
-  image: ^4.3.0
+  image: ^3.0.1
   gal: ^2.3.0
   permission_handler: ^11.3.1
   photo_manager: ^3.6.3
+  path_provider: ^2.1.5
+  gallery_saver: ^2.3.2
 
 
 dev_dependencies:
@@ -67,20 +69,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/images/pro.png
-    - assets/images/Vector.png
-    - assets/images/banner_1_image.png
-    - assets/images/icon_enhance_photo.png
-    - assets/images/icon_remove_object.png
-    - assets/images/icon_remove_background.png
-    - assets/images/icon_touch_remove.png
-    - assets/images/icon_restore_old_pic.png
-    - assets/images/icon_remove_wire.png
-    - assets/images/icon_remove_text.png
-    - assets/images/icon_cartoon_ai.png
-    - assets/images/icon_anime_ai.png
-    - assets/images/icon_ai_filter.png
-    - assets//images/icon_coming_soon.png
+    - assets/images/
 
   fonts:
     - family: PlusJakartaSans

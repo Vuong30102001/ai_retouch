@@ -5,15 +5,15 @@ import 'package:photo_manager/photo_manager.dart';
 
 import '../screen/enhance_photo_screen.dart';
 
-class EnhancePhotoChildWidget extends StatefulWidget {
+class EnhancePhotoSaveWidget extends StatefulWidget {
   final AssetEntity media;
-  const EnhancePhotoChildWidget({super.key, required this.media});
+  const EnhancePhotoSaveWidget({super.key, required this.media});
 
   @override
-  State<EnhancePhotoChildWidget> createState() => _EnhancePhotoChildWidgetState();
+  State<EnhancePhotoSaveWidget> createState() => _EnhancePhotoSaveWidgetState();
 }
 
-class _EnhancePhotoChildWidgetState extends State<EnhancePhotoChildWidget> {
+class _EnhancePhotoSaveWidgetState extends State<EnhancePhotoSaveWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -81,12 +81,12 @@ class _EnhancePhotoChildWidgetState extends State<EnhancePhotoChildWidget> {
                       ),
                       SizedBox(width: 20.w,),
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          width: 80.w,
-                          height: 35.w,
-                          child: const ProButtonWidget()
-                        )
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                              width: 80.w,
+                              height: 35.w,
+                              child: const ProButtonWidget()
+                          )
                       )
                     ],
                   ),
@@ -122,12 +122,19 @@ class _EnhancePhotoChildWidgetState extends State<EnhancePhotoChildWidget> {
                         color: Color(0xFF1A1A1A).withOpacity(0.4),
                         child: Padding(
                           padding: EdgeInsets.all(1.w),
-                          child: Image.asset(
-                            'assets/images/icon_enhance_photo.png',
-                            fit: BoxFit.contain,
+                          child: Container(
                             width: 40.w,
                             height: 40.w,
-                          ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: Colors.grey.withOpacity(0.1),
+                            ),
+                            child: const Icon(
+                              Icons.download_sharp,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                          )
                         ),
                       ),
                       SizedBox(width: 20.w),
@@ -135,7 +142,7 @@ class _EnhancePhotoChildWidgetState extends State<EnhancePhotoChildWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Enhance Photo',
+                            'Watch Ads',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16.sp,
@@ -143,7 +150,7 @@ class _EnhancePhotoChildWidgetState extends State<EnhancePhotoChildWidget> {
                           ),
                           SizedBox(height: 2.w),
                           Text(
-                            'Watch Ads',
+                            'Free',
                             style: TextStyle(
                               color: Colors.white.withOpacity(0.6),
                               fontSize: 14.sp,

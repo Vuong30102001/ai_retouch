@@ -10,12 +10,7 @@ class ProButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        top: 56.w,
-        left: 235.w,
-      ),
-      child: GestureDetector(
+    return GestureDetector(
         onTap: () {
           context.read<SubscriptionCubit>().navigatorToPage(context, 'subscription');
         },
@@ -77,7 +72,6 @@ class ProButtonWidget extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
