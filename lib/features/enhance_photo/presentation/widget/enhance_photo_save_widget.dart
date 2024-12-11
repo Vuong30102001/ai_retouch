@@ -1,13 +1,16 @@
+import 'dart:typed_data';
+
 import 'package:ai_retouch/features/pro_button/presentation/widget/pro_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_manager/photo_manager.dart';
-
+import 'package:ai_retouch/core/utils/photo_saver/photo_saver_helper.dart';
 import '../screen/enhance_photo_screen.dart';
 
 class EnhancePhotoSaveWidget extends StatefulWidget {
   final AssetEntity media;
-  const EnhancePhotoSaveWidget({super.key, required this.media});
+  final Uint8List adjustImage;
+  const EnhancePhotoSaveWidget({super.key, required this.media,required this.adjustImage});
 
   @override
   State<EnhancePhotoSaveWidget> createState() => _EnhancePhotoSaveWidgetState();
@@ -94,16 +97,7 @@ class _EnhancePhotoSaveWidgetState extends State<EnhancePhotoSaveWidget> {
               ),
             ),
             SizedBox(height: 10.w),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EnhancePhotoScreen(media: widget.media),
-                  ),
-                );
-              },
-              child: Card(
+            Card(
                 elevation: 1,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.w),
@@ -112,57 +106,65 @@ class _EnhancePhotoSaveWidgetState extends State<EnhancePhotoSaveWidget> {
                 child: Padding(
                   padding: EdgeInsets.all(4.w),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Card(
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.w),
-                        ),
-                        color: Color(0xFF1A1A1A).withOpacity(0.4),
-                        child: Padding(
-                          padding: EdgeInsets.all(1.w),
-                          child: Container(
-                            width: 40.w,
-                            height: 40.w,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              color: Colors.grey.withOpacity(0.1),
-                            ),
-                            child: const Icon(
-                              Icons.download_sharp,
-                              size: 20,
-                              color: Colors.white,
-                            ),
-                          )
-                        ),
-                      ),
-                      SizedBox(width: 20.w),
-                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Watch Ads',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
+                          Card(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.w),
                             ),
+                            color: Color(0xFF1A1A1A).withOpacity(0.1),
+                            child: Container(
+                              width: 40.w,
+                              height: 40.w,
+                              child: Padding(
+                                  padding: EdgeInsets.all(1.w),
+                                  child: ElevatedButton(
+                                    onPressed:() async {
+                                      await PhotoSaverHelper.saveImageBytesToGallery(
+                                        context,
+                                        widget.adjustImage,
+                                        'Enhance_Image ${widget.media.id}',
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      backgroundColor: Colors.transparent,
+                                    ),
+                                    child: Icon(
+                                      Icons.download_sharp,
+                                      size: 20.w,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                              ),
+                            )
                           ),
-                          SizedBox(height: 2.w),
-                          Text(
-                            'Free',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.6),
-                              fontSize: 14.sp,
-                            ),
+                          SizedBox(width: 20.w),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Watch Ads',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.sp,
+                                ),
+                              ),
+                              SizedBox(height: 2.w),
+                              Text(
+                                'Free',
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.6),
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                  )
+            )
           ],
         ),
       ),

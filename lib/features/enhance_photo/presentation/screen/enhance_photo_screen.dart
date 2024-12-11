@@ -189,9 +189,9 @@ class _EnhancePhotoScreenState extends State<EnhancePhotoScreen> {
                       flex: 2,
                       child: Padding(
                         padding: EdgeInsets.all(1.w),
-                        child: EnhancePhotoSaveWidget(media: widget.media),
+                        child: EnhancePhotoSaveWidget(media: widget.media, adjustImage: adjustedImage,),
+                        )
                       ),
-                    )
                   ],
                 )
               : Row(
