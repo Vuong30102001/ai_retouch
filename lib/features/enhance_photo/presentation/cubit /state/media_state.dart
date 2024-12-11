@@ -1,18 +1,48 @@
-import 'package:ai_retouch/features/enhance_photo/domain/entities/media_entity.dart';
+import 'package:photo_manager/photo_manager.dart';
 
-abstract class MediaState{}
+class MediaState{
+  final List<AssetPathEntity> albums;
+  final List<AssetEntity> mediaList;
+  final AssetPathEntity? selectedAlbum;
+  final bool isLoading;
+  final int currentPage;
+  final int pageSize;
 
-class MediaInitial extends MediaState{}
+  MediaState({
+    required this.albums,
+    required this.mediaList,
+    this.selectedAlbum,
+    required this.isLoading,
+    required this.currentPage,
+    required this.pageSize
+  });
 
-class MediaLoading extends MediaState{}
+  factory MediaState.initial(){
+    return MediaState(
+        albums: [],
+        mediaList: [],
+        selectedAlbum: null,
+        isLoading: false,
+        currentPage: 0,
+        pageSize: 20,
+    );
+  }
 
-class MediaLoaded extends MediaState{
-  final List<MediaEntity> mediaList;
-  final bool hasMore;
-  MediaLoaded({required this.mediaList, required this.hasMore});
-}
-
-class MediaError extends MediaState{
-  final String errorMessage;
-  MediaError({required this.errorMessage});
+  MediaState copyWith({
+    List<AssetPathEntity>? albums,
+    List<AssetEntity>? mediaList,
+    AssetPathEntity? selectedAlbum,
+    bool? isLoading,
+    int? currentPage,
+    int? pageSize,
+  }) {
+    return MediaState(
+        albums: albums ?? this.albums,
+        mediaList: mediaList ?? this.mediaList,
+        selectedAlbum: selectedAlbum ?? this.selectedAlbum,
+        isLoading: isLoading ?? this.isLoading,
+        currentPage: currentPage ?? this.currentPage,
+        pageSize: pageSize ?? this.pageSize,
+    );
+  }
 }

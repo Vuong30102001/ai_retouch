@@ -1,45 +1,69 @@
-import 'package:ai_retouch/features/enhance_photo/domain/repositories/media_repository.dart';
 import 'package:ai_retouch/features/enhance_photo/presentation/cubit%20/state/media_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:photo_manager/photo_manager.dart';
 
-class MediaCubit extends Cubit<MediaState>{
-  final MediaRepository mediaRepository;
-  int currentPage = 0;
-  final int sizePage = 60;
+class MediaCubit extends Cubit<MediaState> {
+  MediaCubit() : super(MediaState.initial());
 
-  MediaCubit(this.mediaRepository): super(MediaInitial());
-
-  Future<void> loadMedia({bool isLoadMore = false}) async {
-    if(state is MediaLoading) return;
-
-    try {
-      if (isLoadMore && state is MediaLoaded) {
-        emit(MediaLoading());
-      }
-      else if (!isLoadMore) {
-        emit(MediaInitial());
-      }
-
-      final newMedia = await mediaRepository.fetchMedia(currentPage, sizePage);
-      final hasMore = newMedia.isNotEmpty;
-
-      if (state is MediaLoaded && isLoadMore) {
-        final previousMedia = (state as MediaLoaded).mediaList;
-        emit(MediaLoaded(
-            mediaList: [...previousMedia, ...newMedia],
-            hasMore: hasMore
-        ));
-      }
-      else {
-        emit(MediaLoaded(
-            mediaList: newMedia,
-            hasMore: hasMore
-        ));
-      }
-      currentPage ++;
+  Future<void> fetchAlbums() async {
+    final permission = await PhotoManager.requestPermissionExtend();
+    if (!permission.isAuth) {
+      PhotoManager.openSetting();
+      return;
     }
-    catch(e){
-      emit(MediaError(errorMessage: e.toString()));
+
+    final albumList = await PhotoManager.getAssetPathList(
+      type: RequestType.common,
+    );
+
+    emit(state.copyWith(albums: albumList));
+
+    if (albumList.isNotEmpty) {
+      _fetchMedia(albumList[0]);
     }
+  }
+
+  Future<void> _fetchMedia(AssetPathEntity selectedAlbum) async {
+    if (state.isLoading) return;
+
+    emit(state.copyWith(isLoading: true));
+
+    final newMedia = await selectedAlbum.getAssetListPaged(
+      page: state.currentPage,
+      size: state.pageSize,
+    );
+
+    emit(state.copyWith(
+      mediaList: newMedia,
+      currentPage: state.currentPage + 1,
+      isLoading: false,
+    ));
+  }
+
+  Future<void> loadMoreMedia(AssetPathEntity selectedAlbum) async {
+    if (state.isLoading) return;
+
+    emit(state.copyWith(isLoading: true));
+
+    final newMedia = await selectedAlbum.getAssetListPaged(
+      page: state.currentPage,
+      size: state.pageSize,
+    );
+
+    emit(state.copyWith(
+      mediaList: List.from(state.mediaList)..addAll(newMedia),
+      currentPage: state.currentPage + 1,
+      isLoading: false,
+    ));
+  }
+
+  void selectAlbum(AssetPathEntity album) {
+    emit(state.copyWith(
+      albums: state.albums,
+      selectedAlbum: album,
+      mediaList: [],
+      currentPage: 0,
+    ));
+    _fetchMedia(album);
   }
 }

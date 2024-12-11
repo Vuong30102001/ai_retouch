@@ -37,9 +37,7 @@ class MyApp extends StatelessWidget {
               create: (context) => MediaRepositoryImpl(mediaDataSource: MediaDataSource()),
           ),
           BlocProvider<MediaCubit>(
-              create: (context) => MediaCubit(
-                context.read<MediaRepository>()
-              )..loadMedia(),
+              create: (context) => MediaCubit()..fetchAlbums(),
           )
         ],
         child: ScreenUtilInit(

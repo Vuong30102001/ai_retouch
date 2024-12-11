@@ -12,10 +12,11 @@ class BannerButton extends StatelessWidget {
     return Positioned(
       top: 134.w,
       left: 12.w,
-      child: GestureDetector(
-        onTap: () {
-          context.read<EnhancePhotoCubit>().navigatorToPage(context, 'enhance');
-        },
+        child: GestureDetector(
+          onTap: () {
+            context.read<EnhancePhotoCubit>().navigatorToPage(context, 'enhance');
+          },
+
         child: Container(
             width: 100.w,
             height: 32.w,

@@ -1,172 +1,126 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'dart:typed_data';
 
+import '../cubit /cubit/media_cubit.dart';
+import '../cubit /state/media_state.dart';
 import 'original_photo_screen.dart';
 
-class AlbumMediaScreen extends StatefulWidget {
-  @override
-  _AlbumMediaScreenState createState() => _AlbumMediaScreenState();
-}
-
-class _AlbumMediaScreenState extends State<AlbumMediaScreen> {
-  List<AssetPathEntity> albums = [];
-  List<AssetEntity> mediaList = [];
-  AssetPathEntity? selectedAlbum;
-  bool isLoading = false;
-  final ScrollController _scrollController = ScrollController();
-  int currentPage = 0;
-  final int pageSize = 20;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchAlbums();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent &&
-          !isLoading) {
-        _fetchMedia(loadMore: true);
-      }
-    });
-  }
-
-  Future<void> _fetchAlbums() async {
-    final permission = await PhotoManager.requestPermissionExtend();
-    if (!permission.isAuth) {
-      PhotoManager.openSetting();
-      return;
-    }
-
-    final albumList = await PhotoManager.getAssetPathList(
-      type: RequestType.common,
-    );
-
-    setState(() {
-      albums = albumList;
-      if (albums.isNotEmpty) {
-        selectedAlbum = albums[0];
-        _fetchMedia();
-      }
-    });
-  }
-
-  Future<void> _fetchMedia({bool loadMore = false}) async {
-    if (isLoading || selectedAlbum == null) return;
-
-    setState(() => isLoading = true);
-    final newMedia = await selectedAlbum!.getAssetListPaged(
-      page: currentPage,
-      size: pageSize,
-    );
-
-    setState(() {
-      if (loadMore) {
-        mediaList.addAll(newMedia);
-      } else {
-        mediaList = newMedia;
-      }
-      currentPage++;
-      isLoading = false;
-    });
-  }
+class AlbumMediaScreen extends StatelessWidget {
+  const AlbumMediaScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController _scrollController = ScrollController();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        final selectedAlbum = context.read<MediaCubit>().state.selectedAlbum;
+        if (selectedAlbum != null) {
+          context.read<MediaCubit>().loadMoreMedia(selectedAlbum);
+        } else {
+          print('No album selected');
+        }
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(title: const Text("Albums & Media")),
-      body: Column(
-        children: [
-          // Hiển thị danh sách album ở trên
-          Container(
-            height: 40,
-            child: albums.isEmpty
-                ? const Center(child: CircularProgressIndicator())
-                : ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: albums.length,
-              itemBuilder: (context, index) {
-                final album = albums[index];
-                final isSelected = album == selectedAlbum;
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedAlbum = album;
-                      currentPage = 0;
-                    });
-                    _fetchMedia();
-                  },
-                  child: Container(
-                    width: 80,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: isSelected ? Colors.blue : Colors.grey,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                      color: isSelected ? Colors.blue.withOpacity(0.5) : Colors.transparent,
-                    ),
-                    child: Center(
-                      child: Text(
-                        album.name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight:
-                          isSelected ? FontWeight.bold : FontWeight.normal,
-                          color: Colors.white,
+      body: BlocBuilder<MediaCubit, MediaState>(
+        builder: (context, state) {
+          if (state.albums.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return Column(
+            children: [
+              // Hiển thị danh sách album ở trên
+              Container(
+                height: 40,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.albums.length,
+                  itemBuilder: (context, index) {
+                    final album = state.albums[index];
+                    final isSelected = album == state.selectedAlbum;
+                    return GestureDetector(
+                      onTap: () {
+                        context.read<MediaCubit>().selectAlbum(album);
+                      },
+                      child: Container(
+                        width: 80,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: isSelected ? Colors.blue : Colors.grey,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                          color: isSelected
+                              ? Colors.blue.withOpacity(0.5)
+                              : Colors.transparent,
+                        ),
+                        child: Center(
+                          child: Text(
+                            album.name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight:
+                              isSelected ? FontWeight.bold : FontWeight.normal,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          const Divider(),
-          // Hiển thị danh sách media ở dưới
-          Expanded(
-            child: mediaList.isEmpty
-                ? const Center(child: Text("No media found"))
-                : GridView.builder(
-              controller: _scrollController,
-              itemCount: mediaList.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 4,
-              ),
-              itemBuilder: (context, index) {
-                final media = mediaList[index];
-                return GestureDetector(
-                  onTap: (){
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OriginalPhotoScreen(media: media),
-                        )
                     );
                   },
-                  child: FutureBuilder<Uint8List?>(
-                    future: media.thumbnailDataWithSize(
-                      const ThumbnailSize(200, 200),
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done &&
-                          snapshot.hasData) {
-                        return Image.memory(
-                          snapshot.data!,
-                          fit: BoxFit.cover,
-                        );
-                      }
-                      return const Center(child: CircularProgressIndicator());
-                    },
+                ),
+              ),
+              const Divider(),
+              // Hiển thị danh sách media ở dưới
+              Expanded(
+                child: GridView.builder(
+                  controller: _scrollController,
+                  itemCount: state.mediaList.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 4,
                   ),
-                );
-              },
-            )
-          ),
-        ],
+                  itemBuilder: (context, index) {
+                    final media = state.mediaList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OriginalPhotoScreen(media: media),
+                          ),
+                        );
+                      },
+                      child: FutureBuilder<Uint8List?>(
+                        future: media.thumbnailDataWithSize(
+                          const ThumbnailSize(200, 200),
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done &&
+                              snapshot.hasData) {
+                            return Image.memory(
+                              snapshot.data!,
+                              fit: BoxFit.cover,
+                            );
+                          }
+                          return const Center(child: CircularProgressIndicator());
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
