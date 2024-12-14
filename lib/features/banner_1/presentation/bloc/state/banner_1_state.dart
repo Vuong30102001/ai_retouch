@@ -1,18 +1,18 @@
 import 'package:equatable/equatable.dart';
 
-class EnhancePhotoState extends Equatable{
+class Banner1State extends Equatable{
   final bool isLoading;
   final String? errorMessage;
-  const EnhancePhotoState({
+  const Banner1State({
     this.isLoading = false,
     this.errorMessage
   });
 
-  EnhancePhotoState copyWith({
+  Banner1State copyWith({
     final bool? isLoading,
     final String? errorMessage,
   }) {
-    return EnhancePhotoState(
+    return Banner1State(
       isLoading: isLoading ?? false,
       errorMessage: errorMessage,
     );

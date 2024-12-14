@@ -2,12 +2,12 @@ import 'dart:typed_data';
 
 enum MediaType{
   image,
-  video,
+  video
 }
 
-class MediaEntity{
+class RemoveObjectEntity{
   final String id;
   final Uint8List thumbnail;
   final MediaType mediaType;
-  MediaEntity({required this.id, required this.thumbnail, required this.mediaType});
+  RemoveObjectEntity({required this.id, required this.thumbnail, required this.mediaType});
 }

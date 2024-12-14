@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stroke_text/stroke_text.dart';
-import '../bloc/cubit/enhance_photo_cubit.dart';
+import '../bloc/cubit/banner_1_cubit.dart';
 
 class BannerButton extends StatelessWidget {
   const BannerButton({super.key});
@@ -14,7 +14,7 @@ class BannerButton extends StatelessWidget {
       left: 12.w,
         child: GestureDetector(
           onTap: () {
-            context.read<EnhancePhotoCubit>().navigatorToPage(context, 'enhance');
+            context.read<Banner1Cubit>().navigatorToPage(context, 'enhance');
           },
 
         child: Container(

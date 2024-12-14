@@ -1,11 +1,10 @@
-import 'package:ai_retouch/features/banner_1/presentation/bloc/state/enhance_photo_state.dart';
+import 'package:ai_retouch/features/banner_1/presentation/bloc/state/banner_1_state.dart';
 import 'package:ai_retouch/features/enhance_photo/presentation/screen/album_media_screen.dart';
-import 'package:ai_retouch/features/enhance_photo/presentation/widget/enhance_photo_widget.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
-class EnhancePhotoCubit extends Cubit<EnhancePhotoState>{
-  EnhancePhotoCubit() : super(const EnhancePhotoState());
+class Banner1Cubit extends Cubit<Banner1State>{
+  Banner1Cubit() : super(const Banner1State());
 
   void navigatorToPage(BuildContext context, String page) async {
     emit(state.copyWith(isLoading: true));

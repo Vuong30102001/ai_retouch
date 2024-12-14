@@ -1,6 +1,6 @@
 import 'package:photo_manager/photo_manager.dart';
 
-class MediaState{
+class RemoveObjectState{
   final List<AssetPathEntity> albums;
   final List<AssetEntity> mediaList;
   final AssetPathEntity? selectedAlbum;
@@ -8,7 +8,7 @@ class MediaState{
   final int currentPage;
   final int pageSize;
 
-  MediaState({
+  RemoveObjectState({
     required this.albums,
     required this.mediaList,
     this.selectedAlbum,
@@ -17,18 +17,18 @@ class MediaState{
     required this.pageSize
   });
 
-  factory MediaState.initial(){
-    return MediaState(
-        albums: [],
-        mediaList: [],
-        selectedAlbum: null,
-        isLoading: false,
-        currentPage: 0,
-        pageSize: 20,
+  factory RemoveObjectState.initial(){
+    return RemoveObjectState(
+      albums: [],
+      mediaList: [],
+      selectedAlbum: null,
+      isLoading: false,
+      currentPage: 0,
+      pageSize: 20,
     );
   }
 
-  MediaState copyWith({
+  RemoveObjectState copyWith({
     List<AssetPathEntity>? albums,
     List<AssetEntity>? mediaList,
     AssetPathEntity? selectedAlbum,
@@ -36,13 +36,13 @@ class MediaState{
     int? currentPage,
     int? pageSize,
   }) {
-    return MediaState(
-        albums: albums ?? this.albums,
-        mediaList: mediaList ?? this.mediaList,
-        selectedAlbum: selectedAlbum ?? this.selectedAlbum,
-        isLoading: isLoading ?? this.isLoading,
-        currentPage: currentPage ?? this.currentPage,
-        pageSize: pageSize ?? this.pageSize,
+    return RemoveObjectState(
+      albums: albums ?? this.albums,
+      mediaList: mediaList ?? this.mediaList,
+      selectedAlbum: selectedAlbum ?? this.selectedAlbum,
+      isLoading: isLoading ?? this.isLoading,
+      currentPage: currentPage ?? this.currentPage,
+      pageSize: pageSize ?? this.pageSize,
     );
   }
 }

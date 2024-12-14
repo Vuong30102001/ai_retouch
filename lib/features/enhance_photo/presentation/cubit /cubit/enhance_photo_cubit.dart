@@ -1,9 +1,9 @@
-import 'package:ai_retouch/features/enhance_photo/presentation/cubit%20/state/media_state.dart';
+import 'package:ai_retouch/features/enhance_photo/presentation/cubit%20/state/enhance_photo_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-class MediaCubit extends Cubit<MediaState> {
-  MediaCubit() : super(MediaState.initial());
+class EnhancePhotoCubit extends Cubit<EnhancePhotoState> {
+  EnhancePhotoCubit() : super(EnhancePhotoState.initial());
 
   Future<void> fetchAlbums() async {
     final permission = await PhotoManager.requestPermissionExtend();

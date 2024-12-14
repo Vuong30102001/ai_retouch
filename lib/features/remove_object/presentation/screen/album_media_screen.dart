@@ -1,11 +1,11 @@
-import 'package:ai_retouch/features/enhance_photo/presentation/cubit%20/cubit/enhance_photo_cubit.dart';
+import 'dart:typed_data';
+
+import 'package:ai_retouch/features/remove_object/presentation/cubit/cubit/remove_object_cubit.dart';
+import 'package:ai_retouch/features/remove_object/presentation/cubit/state/remove_object_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'dart:typed_data';
 
-import '../cubit /state/enhance_photo_state.dart';
-import 'original_photo_screen.dart';
 
 class AlbumMediaScreen extends StatelessWidget {
   const AlbumMediaScreen({super.key});
@@ -16,9 +16,9 @@ class AlbumMediaScreen extends StatelessWidget {
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        final selectedAlbum = context.read<EnhancePhotoCubit>().state.selectedAlbum;
+        final selectedAlbum = context.read<RemoveObjectCubit>().state.selectedAlbum;
         if (selectedAlbum != null) {
-          context.read<EnhancePhotoCubit>().loadMoreMedia(selectedAlbum);
+          context.read<RemoveObjectCubit>().loadMoreMedia(selectedAlbum);
         } else {
           print('No album selected');
         }
@@ -27,7 +27,7 @@ class AlbumMediaScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text("Albums & Media")),
-      body: BlocBuilder<EnhancePhotoCubit, EnhancePhotoState>(
+      body: BlocBuilder<RemoveObjectCubit, RemoveObjectState>(
         builder: (context, state) {
           if (state.albums.isEmpty) {
             return const Center(child: CircularProgressIndicator());
@@ -46,7 +46,7 @@ class AlbumMediaScreen extends StatelessWidget {
                     final isSelected = album == state.selectedAlbum;
                     return GestureDetector(
                       onTap: () {
-                        context.read<EnhancePhotoCubit>().selectAlbum(album);
+                        context.read<RemoveObjectCubit>().selectAlbum(album);
                       },
                       child: Container(
                         width: 80,
@@ -95,7 +95,7 @@ class AlbumMediaScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => OriginalPhotoScreen(media: media),
+                            builder: (context) => Container(color: Colors.blue,),
                           ),
                         );
                       },
@@ -125,3 +125,4 @@ class AlbumMediaScreen extends StatelessWidget {
     );
   }
 }
+

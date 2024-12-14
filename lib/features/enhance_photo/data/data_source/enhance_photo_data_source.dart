@@ -1,14 +1,14 @@
-import 'package:ai_retouch/features/enhance_photo/domain/entities/media_entity.dart';
+import 'package:ai_retouch/features/enhance_photo/domain/entities/enhance_photo_entity.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-class MediaDataSource{
-  Future<List<MediaEntity>> getMedia(int page, int size) async {
+class EnhancePhotoDataSource{
+  Future<List<EnhancePhotoEntity>> getMedia(int page, int size) async {
     final albums = await PhotoManager.getAssetPathList(onlyAll: true);
     final media = await albums[0].getAssetListPaged(page: page, size: size);
     
     return Future.wait(media.map((asset) async {
       final thumbnail = await asset.thumbnailDataWithSize(const ThumbnailSize(200, 200));
-      return MediaEntity(
+      return EnhancePhotoEntity(
           id: asset.id,
           thumbnail: thumbnail!,
           mediaType: _mapAssetTypeToMediaType(asset.type),
