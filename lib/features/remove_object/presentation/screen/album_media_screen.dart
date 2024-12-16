@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:ai_retouch/features/remove_object/presentation/cubit/cubit/remove_object_cubit.dart';
 import 'package:ai_retouch/features/remove_object/presentation/cubit/state/remove_object_state.dart';
+import 'package:ai_retouch/features/remove_object/presentation/screen/remove_object_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -95,7 +96,7 @@ class AlbumMediaScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Container(color: Colors.blue,),
+                            builder: (context) => RemoveObjectScreen(media: media),
                           ),
                         );
                       },
