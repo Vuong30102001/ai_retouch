@@ -66,4 +66,5 @@ class RemoveObjectCubit extends Cubit<RemoveObjectState> {
     ));
     _fetchMedia(album);
   }
+
 }

@@ -14,7 +14,7 @@ class RemoveObjectScreen extends StatefulWidget {
 
 class _RemoveObjectScreenState extends State<RemoveObjectScreen> {
   late Future<Uint8List?> imageData;
-  
+
   @override
   void initState(){
     super.initState();
