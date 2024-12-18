@@ -20,8 +20,10 @@ import 'features/banner_1/presentation/bloc/cubit/banner_1_cubit.dart';
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.updateRequestConfiguration(
+      RequestConfiguration(testDeviceIds: ['ca-app-pub-3940256099942544~3347511713']) // Thay YOUR_DEVICE_ID bằng ID thiết bị của bạn
+  );
   unawaited(MobileAds.instance.initialize());
-
   runApp(
    MultiBlocProvider(
           providers: [

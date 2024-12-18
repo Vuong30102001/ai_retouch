@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:ai_retouch/core/ads/interstitial_ads/interstitial_ad_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import '../../../../core/ads/my_banner_ad_widget.dart';
+import '../../../../core/ads/banner/my_banner_ad_widget.dart';
 import '../../../app_name/presentation/widget/app_name_widget.dart';
 import '../../../pro_button/presentation/widget/pro_button_widget.dart';
 import 'package:ai_retouch/features/setting_button/presentation/widget/setting_button_widget.dart';
@@ -29,59 +30,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  InterstitialAd? _interstitialAd;
-  final adUnitId = Platform.isAndroid
-      ? 'ca-app-pub-3940256099942544/1033173712'
-      : 'ca-app-pub-3940256099942544/4411468910';
+  late InterstitialAdManager _interstitialAdManager;
 
   @override
   void initState() {
     super.initState();
-    _loadInterstitialAd();
+    _interstitialAdManager = InterstitialAdManager(
+        adUnitId: Platform.isAndroid
+            ? 'ca-app-pub-3940256099942544/1033173712'
+            : 'ca-app-pub-3940256099942544/4411468910',
+    );
+    _interstitialAdManager.loadInterstitialAd();
   }
 
   @override
-  void dispose() {
-    _interstitialAd?.dispose();
+  void dispose(){
+    _interstitialAdManager.dispose();
     super.dispose();
   }
 
-  void _loadInterstitialAd() {
-    InterstitialAd.load(
-      adUnitId: adUnitId,
-      request: AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (ad) {
-          ad.fullScreenContentCallback = FullScreenContentCallback(
-            onAdShowedFullScreenContent: (ad){},
-            onAdImpression: (ad){},
-            onAdFailedToShowFullScreenContent: (ad, error){
-              ad.dispose();
-            },
-            onAdDismissedFullScreenContent: (ad) {
-              // Dispose the ad here to free resources.
-              ad.dispose();
-            },
-              onAdClicked: (ad) {},
-          );
-          debugPrint('$ad loaded.');
-          _interstitialAd = ad;
-          _showInterstitialAd();
-        },
-        onAdFailedToLoad: (error) {
-          print('Failed to load an interstitial ad: ${error.message}');
-        },
-      ),
-    );
-  }
-
-  void _showInterstitialAd() {
-    if (_interstitialAd != null) {
-      _interstitialAd!.show();
-    } else {
-      print('Interstitial ad is not ready.');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

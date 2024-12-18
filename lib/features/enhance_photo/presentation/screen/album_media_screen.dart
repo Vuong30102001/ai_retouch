@@ -1,3 +1,4 @@
+import 'package:ai_retouch/core/ads/native_ads/native_ad_widget.dart';
 import 'package:ai_retouch/features/enhance_photo/presentation/cubit%20/cubit/enhance_photo_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -118,6 +119,9 @@ class AlbumMediaScreen extends StatelessWidget {
                   },
                 ),
               ),
+              const Expanded(
+                child: NativeAdWidget(),
+              )
             ],
           );
         },

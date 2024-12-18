@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:ai_retouch/core/ads/reward_ads/reward_ad_widget.dart';
 import 'package:ai_retouch/features/remove_object/presentation/cubit/cubit/remove_object_cubit.dart';
 import 'package:ai_retouch/features/remove_object/presentation/cubit/state/remove_object_state.dart';
 import 'package:ai_retouch/features/remove_object/presentation/screen/remove_object_screen.dart';
@@ -119,6 +120,7 @@ class AlbumMediaScreen extends StatelessWidget {
                   },
                 ),
               ),
+              const Expanded(child: RewardAdWidget()),
             ],
           );
         },
