@@ -2,10 +2,10 @@ import 'dart:typed_data';
 import 'package:ai_retouch/features/enhance_photo/presentation/widget/enhance_photo_save_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:image/image.dart' as img;
 
-import '../widget/enhance_photo_child_widget.dart';
 
 class EnhancePhotoScreen extends StatefulWidget {
   final AssetEntity media;
@@ -20,11 +20,52 @@ class _EnhancePhotoScreenState extends State<EnhancePhotoScreen> {
   late Uint8List adjustedImage;
   double _dividerPosition = 0.5;
   bool _isSaved = false;
+  int featureUsageCount = 0;
+  InterstitialAd? _interstitialAd;
+
+  void loadInterstitialAd(){
+    InterstitialAd.load(
+        adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+        request: AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+            onAdLoaded: (ad){
+              ad.fullScreenContentCallback = FullScreenContentCallback(
+                onAdShowedFullScreenContent: (ad) {},
+                onAdImpression: (ad) {},
+                onAdFailedToShowFullScreenContent: (ad, error) {
+                  ad.dispose();
+                },
+                onAdDismissedFullScreenContent: (ad) {
+                  ad.dispose();
+                },
+                onAdClicked: (ad) {},
+              );
+              _interstitialAd = ad;
+              showInterstitialAd();
+            },
+            onAdFailedToLoad: (error){
+              print('Failed to load an interstitial ad: ${error.message}');
+            }
+        )
+    );
+  }
+
+  void showInterstitialAd(){
+    if(_interstitialAd != null){
+      _interstitialAd!.show();
+    }
+
+    else
+      {
+        print('Not ads exits');
+      }
+  }
 
   @override
   void initState() {
     super.initState();
     _loadImages();
+    loadInterstitialAd();
   }
 
   Future<void> _loadImages() async {
@@ -126,6 +167,10 @@ class _EnhancePhotoScreenState extends State<EnhancePhotoScreen> {
                         setState(() {
                           _isSaved = true;
                         });
+                        featureUsageCount++;
+                        if(featureUsageCount % 3 == 0){
+                          showInterstitialAd();
+                        }
                       },
                       child: Container(
                           width: 40.w,

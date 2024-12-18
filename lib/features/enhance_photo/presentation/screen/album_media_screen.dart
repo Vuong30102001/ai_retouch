@@ -119,9 +119,7 @@ class AlbumMediaScreen extends StatelessWidget {
                   },
                 ),
               ),
-              const Expanded(
-                child: NativeAdWidget(),
-              )
+              const NativeAdWidget(),
             ],
           );
         },

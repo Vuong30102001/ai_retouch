@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:ai_retouch/features/remove_object/presentation/widget/brush_remove_object.dart';
 import 'package:ai_retouch/features/remove_object/presentation/widget/tool_remove_object_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,7 +21,7 @@ class _RemoveObjectScreenState extends State<RemoveObjectScreen> {
     super.initState();
     imageData = widget.media.thumbnailDataWithSize(const ThumbnailSize(400, 400));
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,28 +71,28 @@ class _RemoveObjectScreenState extends State<RemoveObjectScreen> {
             child: Padding(
                 padding: const EdgeInsets.all(1.0),
               child: FutureBuilder(
-                  future: imageData, 
-                  builder: (context, snapshot){
-                    if(snapshot.connectionState == ConnectionState.done){
-                      if(snapshot.hasError){
-                        return const Center(child: Text('Error loading image'),);
-                      }
-                      else if(snapshot.hasData){
-                        Uint8List? imageBytes = snapshot.data;
-                        if(imageBytes != null){
-                          return Image.memory(
-                            imageBytes,
-                            fit: BoxFit.contain,
-                          );
+                      future: imageData,
+                      builder: (context, snapshot){
+                        if(snapshot.connectionState == ConnectionState.done){
+                          if(snapshot.hasError){
+                            return const Center(child: Text('Error loading image'),);
+                          }
+                          else if(snapshot.hasData){
+                            Uint8List? imageBytes = snapshot.data;
+                            if(imageBytes != null){
+                              return Image.memory(
+                                imageBytes,
+                                fit: BoxFit.contain,
+                              );
+                            }
+                            else {
+                              return const Center(child: Text('No image data found'),);
+                            }
+                          }
                         }
-                        else {
-                          return const Center(child: Text('No image data found'),);
-                        }
+                        return const Center(child: CircularProgressIndicator(),);
                       }
-                    }
-                    return const Center(child: CircularProgressIndicator(),);
-                  }
-              ),
+                  ),
             ),
           ),
           Container(
