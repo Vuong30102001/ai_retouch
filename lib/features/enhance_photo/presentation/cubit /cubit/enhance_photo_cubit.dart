@@ -1,9 +1,11 @@
+import 'package:ai_retouch/features/enhance_photo/domain/repositories/enhance_photo_repository.dart';
 import 'package:ai_retouch/features/enhance_photo/presentation/cubit%20/state/enhance_photo_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class EnhancePhotoCubit extends Cubit<EnhancePhotoState> {
-  EnhancePhotoCubit() : super(EnhancePhotoState.initial());
+  final EnhancePhotoRepository repository;
+  EnhancePhotoCubit({required this.repository}) : super(EnhancePhotoState.initial());
 
   Future<void> fetchAlbums() async {
     final permission = await PhotoManager.requestPermissionExtend();
@@ -12,9 +14,7 @@ class EnhancePhotoCubit extends Cubit<EnhancePhotoState> {
       return;
     }
 
-    final albumList = await PhotoManager.getAssetPathList(
-      type: RequestType.common,
-    );
+    final albumList = await repository.fetchAlbums();
 
     emit(state.copyWith(albums: albumList));
 

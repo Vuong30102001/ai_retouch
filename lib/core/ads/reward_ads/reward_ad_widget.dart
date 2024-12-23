@@ -1,30 +1,40 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-class RewardAdWidget extends StatefulWidget {
-  const RewardAdWidget({super.key});
+class RewardAdWidget {
+  static RewardedAd? _rewardedAd;
 
-  @override
-  State<RewardAdWidget> createState() => _RewardAdWidgetState();
-}
-
-class _RewardAdWidgetState extends State<RewardAdWidget> {
-  RewardedAd? _rewardedAd;
-
-  final adUnitId = Platform.isAndroid
+  static final adUnitId = Platform.isAndroid
       ? 'ca-app-pub-3940256099942544/5224354917'
       : 'ca-app-pub-3940256099942544/1712485313';
 
-  int userPoints = 0;
+  static Future<bool> showRewardAd() async {
+    final completer = Completer<bool>();
 
-  @override
-  void initState() {
-    super.initState();
-    _loadRewardAd();
+    if (_rewardedAd == null) {
+      await _loadRewardAd();
+    }
+
+    if (_rewardedAd != null) {
+      _rewardedAd!.show(
+        onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
+          debugPrint('User earned reward: ${reward.amount} ${reward.type}');
+          completer.complete(true);
+        },
+      );
+      _rewardedAd = null;
+    } else {
+      debugPrint('Ad not ready');
+      completer.complete(false);
+    }
+
+    return completer.future;
   }
 
-  void _loadRewardAd() {
+  static Future<void> _loadRewardAd() async {
     RewardedAd.load(
       adUnitId: adUnitId,
       request: const AdRequest(),
@@ -32,14 +42,13 @@ class _RewardAdWidgetState extends State<RewardAdWidget> {
         onAdLoaded: (ad) {
           debugPrint('$ad loaded');
           _rewardedAd = ad;
-          _showRewardAd();
 
-          // Gắn sự kiện khi người dùng nhận thưởng
+          // Gắn sự kiện khi quảng cáo kết thúc
           _rewardedAd?.fullScreenContentCallback = FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
               debugPrint('Ad dismissed');
-              ad.dispose(); // Giải phóng quảng cáo khi đã xong
-              _loadRewardAd(); // Tải lại quảng cáo
+              ad.dispose();
+              _loadRewardAd();
             },
             onAdFailedToShowFullScreenContent: (ad, error) {
               debugPrint('Failed to show ad: $error');
@@ -53,30 +62,5 @@ class _RewardAdWidgetState extends State<RewardAdWidget> {
         },
       ),
     );
-  }
-
-  void _showRewardAd() {
-    if (_rewardedAd != null) {
-      _rewardedAd!.show(
-        onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
-          userPoints += reward.amount.toInt();
-          debugPrint('User earned reward: ${reward.amount} ${reward.type}');
-        },
-      );
-      _rewardedAd = null;
-    } else {
-      debugPrint('Ad not ready');
-    }
-  }
-
-  @override
-  void dispose() {
-    _rewardedAd?.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox.shrink();
   }
 }

@@ -57,7 +57,9 @@ class _MyAppState extends State<MyApp> {
               create: (context) => EnhancePhotoRepositoryImpl(mediaDataSource: EnhancePhotoDataSource()),
           ),
           BlocProvider<EnhancePhotoCubit>(
-              create: (context) => EnhancePhotoCubit()..fetchAlbums(),
+              create: (context) => EnhancePhotoCubit(
+                repository: context.read<EnhancePhotoRepository>(),
+              )..fetchAlbums(),
           ),
           Provider<RemoveObjectRepository>(
               create: (context) => RemoveObjectRepositoryImpl(removeObjectDataSource: RemoveObjectDataSource()),

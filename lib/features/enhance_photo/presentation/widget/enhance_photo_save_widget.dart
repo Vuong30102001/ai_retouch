@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:ai_retouch/core/ads/native_ads/native_ad_widget.dart';
+import 'package:ai_retouch/core/ads/reward_ads/reward_ad_widget.dart';
 import 'package:ai_retouch/features/pro_button/presentation/widget/pro_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -122,11 +124,30 @@ class _EnhancePhotoSaveWidgetState extends State<EnhancePhotoSaveWidget> {
                                 padding: EdgeInsets.all(1.w),
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    await PhotoSaverHelper.saveImageBytesToGallery(
-                                      context,
-                                      widget.adjustImage,
-                                      'Enhance_Image ${widget.media.id}',
-                                    );
+                                    try{
+                                      bool rewardShowed = await RewardAdWidget.showRewardAd();
+                                      if(rewardShowed){
+                                        await PhotoSaverHelper.saveImageBytesToGallery(
+                                          context,
+                                          widget.adjustImage,
+                                          'Enhance_Image ${widget.media.id}',
+                                        );
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text('Hình ảnh đã được tải về thành công!')),
+                                        );
+                                      }
+                                      else
+                                        {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text('Bạn cần xem quảng cáo để tải hình ảnh.')),
+                                          );
+                                        }
+                                    }
+                                    catch (e){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text('Quảng cáo chưa sẵn sàng. Vui lòng thử lại sau.')),
+                                      );
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     padding: EdgeInsets.zero,

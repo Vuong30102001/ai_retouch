@@ -3,6 +3,7 @@ import 'dart:typed_data';
 enum MediaType{
   image,
   video,
+  unknown,
 }
 
 class EnhancePhotoEntity{
