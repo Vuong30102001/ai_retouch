@@ -101,18 +101,18 @@ class AlbumMediaScreen extends StatelessWidget {
                         );
                       },
                       child: FutureBuilder<Uint8List?>(
-                        future: media.thumbnailDataWithSize(
-                          const ThumbnailSize(200, 200),
-                        ),
+                        future: media.thumbnailDataWithSize(ThumbnailSize(200, 200)),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.done &&
-                              snapshot.hasData) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError || !snapshot.hasData) {
+                            return Icon(Icons.error);
+                          } else {
                             return Image.memory(
-                              snapshot.data!,
+                              snapshot.data!, // Hiển thị ảnh từ Uint8List
                               fit: BoxFit.cover,
                             );
                           }
-                          return const Center(child: CircularProgressIndicator());
                         },
                       ),
                     );

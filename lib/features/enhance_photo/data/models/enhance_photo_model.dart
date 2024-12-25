@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:json_annotation/json_annotation.dart';
+import '../../../../core/converters/uint8list_converter.dart';
 import '../../domain/entities/enhance_photo_entity.dart';
-import '../converters/uint8list_converter.dart';
 
 part 'enhance_photo_model.g.dart';
 

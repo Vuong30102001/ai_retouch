@@ -8,6 +8,11 @@ import 'package:ai_retouch/features/remove_object/data/data_source/remove_object
 import 'package:ai_retouch/features/remove_object/data/repositories/remove_object_repository_impl.dart';
 import 'package:ai_retouch/features/remove_object/domain/repositories/remove_object_repository.dart';
 import 'package:ai_retouch/features/remove_object/presentation/cubit/cubit/remove_object_cubit.dart';
+import 'package:ai_retouch/features/restore_old_picture/data/data_source/restore_old_picture_data_source.dart';
+import 'package:ai_retouch/features/restore_old_picture/data/repositories/restore_old_picture_repository_impl.dart';
+import 'package:ai_retouch/features/restore_old_picture/domain/repositories/restore_old_picture_repository.dart';
+import 'package:ai_retouch/features/restore_old_picture/domain/use_case/restore_old_picture_use_case.dart';
+import 'package:ai_retouch/features/restore_old_picture/presentation/cubit/cubit/restore_old_picture_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +26,7 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.updateRequestConfiguration(
-      RequestConfiguration(testDeviceIds: ['ca-app-pub-3940256099942544~3347511713']) // Thay YOUR_DEVICE_ID bằng ID thiết bị của bạn
+      RequestConfiguration(testDeviceIds: ['ca-app-pub-3940256099942544~3347511713'])
   );
   unawaited(MobileAds.instance.initialize());
   runApp(
@@ -60,6 +65,19 @@ class _MyAppState extends State<MyApp> {
               create: (context) => EnhancePhotoCubit(
                 repository: context.read<EnhancePhotoRepository>(),
               )..fetchAlbums(),
+          ),
+          Provider<RestoreOldPictureRepository>(
+            create: (context) => RestoreOldPictureRepositoryImpl(RestoreOldPictureDataSource()),
+          ),
+          Provider<RestoreOldPictureUseCase>(
+              create: (context) => RestoreOldPictureUseCase(
+                context.read<RestoreOldPictureRepository>(),
+              )
+          ),
+          BlocProvider<RestoreOldPictureCubit>(
+            create: (context) => RestoreOldPictureCubit(
+              repository: context.read<RestoreOldPictureRepository>(),
+            )..fetchAlbums()
           ),
           Provider<RemoveObjectRepository>(
               create: (context) => RemoveObjectRepositoryImpl(removeObjectDataSource: RemoveObjectDataSource()),

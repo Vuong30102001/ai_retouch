@@ -51,7 +51,7 @@ class _EnhancePhotoChildWidgetState extends State<EnhancePhotoChildWidget> {
                         child: Padding(
                           padding: EdgeInsets.all(1.w),
                           child: Image.asset(
-                            'assets/images/icon_diamond_pro.png',
+                            'assets/images/diamond.png',
                             fit: BoxFit.contain,
                             width: 40.w,
                             height: 40.w,
