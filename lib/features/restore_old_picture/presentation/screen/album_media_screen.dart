@@ -208,10 +208,9 @@ class AlbumMediaScreen extends StatelessWidget {
 
                               return GestureDetector(
                                 onTap: () async {
-                                  final file = await media.file;
                                   Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const RestoreOldPictureScreen())
+                                      MaterialPageRoute(builder: (context) => RestoreOldPictureScreen(media: media,))
                                   );
                                 },
                                 child: FutureBuilder<Uint8List?>(
