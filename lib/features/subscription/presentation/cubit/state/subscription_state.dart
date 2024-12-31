@@ -13,8 +13,8 @@ class SubscriptionState extends Equatable{
     final String? errorMessage,
   }) {
     return SubscriptionState(
-      isLoading: isLoading ?? false,
-      errorMessage: errorMessage
+        isLoading: isLoading ?? false,
+        errorMessage: errorMessage
     );
   }
 

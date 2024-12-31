@@ -8,6 +8,9 @@ class RestoreOldPictureState{
   final bool isLoading;
   final int currentPage;
   final int pageSize;
+  //
+  final String? successMessage;
+  final String? errorMessage;
   RestoreOldPictureState({
     required this.albums,
     required  this.medias,
@@ -15,6 +18,8 @@ class RestoreOldPictureState{
     required this.isLoading,
     required this.currentPage,
     required this.pageSize,
+    this.successMessage,
+    this.errorMessage,
   });
 
   factory RestoreOldPictureState.initial(){
@@ -25,6 +30,8 @@ class RestoreOldPictureState{
         isLoading: false,
         currentPage: 0,
         pageSize: 20,
+        successMessage: null,
+        errorMessage: null,
     );
   }
 
@@ -35,6 +42,8 @@ class RestoreOldPictureState{
     bool? isLoading,
     int? currentPage,
     int? pageSize,
+    String? successMessage,
+    String? errorMessage,
   }){
     return RestoreOldPictureState(
       albums: albums ?? this.albums,
@@ -43,6 +52,8 @@ class RestoreOldPictureState{
       isLoading: isLoading ?? this.isLoading,
       currentPage: currentPage ?? this.currentPage,
       pageSize: pageSize ?? this.pageSize,
+      successMessage: successMessage,
+      errorMessage: errorMessage,
     );
   }
 }

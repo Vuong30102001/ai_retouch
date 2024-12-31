@@ -4,4 +4,6 @@ import 'package:photo_manager/photo_manager.dart';
 abstract class RestoreOldPictureRepository{
   Future<List<AssetPathEntity>> fetchAlbums();
   Future<List<RestoreOldPictureEntity>> fetchMedias(int page, int size);
+  Future<String?> getToken();
+  Future<void> restoreImage(String filePath, String token);
 }

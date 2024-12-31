@@ -1,9 +1,10 @@
-import 'package:ai_retouch/features/pro_button/presentation/bloc/cubit/subscription_cubit.dart';
 import 'package:ai_retouch/features/pro_button/presentation/widget/pro_image.dart';
 import 'package:ai_retouch/features/pro_button/presentation/widget/pro_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../subscription/presentation/cubit/cubit/subscription_cubit.dart';
 
 class ProButtonWidget extends StatelessWidget {
   const ProButtonWidget({super.key});
@@ -12,7 +13,7 @@ class ProButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          context.read<SubscriptionCubit>().navigatorToPage(context, 'subscription');
+          context.read<SubscriptionCubit>().navigatorToPage(context);
         },
         child: Container(
           width: 78.w,

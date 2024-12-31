@@ -20,4 +20,22 @@ class RestoreOldPictureRepositoryImpl implements RestoreOldPictureRepository{
       return media.toEntity();
     }).toList();
   }
+
+  @override
+  Future<String?> getToken() async {
+    try {
+      return await restoreOldPictureDataSource.getToken();
+    } catch (e) {
+      throw Exception('Error fetching token: $e');
+    }
+  }
+
+  @override
+  Future<void> restoreImage(String filePath, String token) async {
+    try {
+      await restoreOldPictureDataSource.restoreImage(filePath, token);
+    } catch (e) {
+      throw Exception('Error restoring image: $e');
+    }
+  }
 }
