@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 import '../../../domain/repositories/restore_old_picture_repository.dart';
-import '../../screen/restore_watch_ads_screen.dart';
+import '../../screen/restore_check_screen.dart';
 import '../state/restore_old_picture_state.dart';
 
 class RestoreOldPictureCubit extends Cubit<RestoreOldPictureState> {
@@ -72,11 +72,11 @@ class RestoreOldPictureCubit extends Cubit<RestoreOldPictureState> {
     _fetchMedia(album);
   }
 
-  void openRestoreWatchAdsScreen(BuildContext context, AssetEntity media) {
+  void openRestoreCheckScreen(BuildContext context, AssetEntity media) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => RestoreWatchAdsScreen(media: media),
+        builder: (context) => RestoreCheckScreen(media: media),
       ),
     );
   }
@@ -90,7 +90,7 @@ class RestoreOldPictureCubit extends Cubit<RestoreOldPictureState> {
     );
   }
 
-  Future<void> restoreImage(AssetEntity media) async {
+  Future<String> restoreImage(AssetEntity media) async {
     emit(state.copyWith(isLoading: true));
 
     try {
@@ -104,29 +104,29 @@ class RestoreOldPictureCubit extends Cubit<RestoreOldPictureState> {
         throw Exception('Unable to retrieve token');
       }
 
-      await repository.restoreImage(file.path, token);
+      final restoredImagePath = await repository.restoreImage(file.path, token);
 
       emit(state.copyWith(successMessage: 'Image has been successfully restored!'));
+
+      return restoredImagePath;
 
     } catch (error, stacktrace) {
       print('Error: $error');
       print('Stacktrace: $stacktrace');
       emit(state.copyWith(errorMessage: 'An error occurred: $error'));
+      rethrow; // Để xử lý lỗi ở nơi gọi hàm
     } finally {
       emit(state.copyWith(isLoading: false));
     }
   }
 
-  void openRestoredImageScreen(BuildContext context, AssetEntity media) async {
-    final file = await media.file;
-    if(file != null){
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => RestoredImageScreen(imagePath: file.path,),
-        ),
-      );
-    }
-  }
 
+  void openRestoredImageScreen(BuildContext context, String restoredImagePath) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RestoredImageScreen(base64Image: restoredImagePath),
+      ),
+    );
+  }
 }

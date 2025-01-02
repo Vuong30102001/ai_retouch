@@ -1,8 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:ai_retouch/features/banner_1/presentation/widget/banner_button.dart';
 import 'package:ai_retouch/features/restore_old_picture/presentation/cubit/cubit/restore_old_picture_cubit.dart';
-import 'package:ai_retouch/features/restore_old_picture/presentation/screen/restore_watch_ads_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -216,7 +214,7 @@ class _RestoreOldPictureScreenState extends State<RestoreOldPictureScreen> {
                         SizedBox(height: 2.w),
                         GestureDetector(
                           onTap: () {
-                            context.read<RestoreOldPictureCubit>().openRestoreWatchAdsScreen(context, widget.media);
+                            context.read<RestoreOldPictureCubit>().openRestoreCheckScreen(context, widget.media);
                           },
                           child: Card(
                             elevation: 1,

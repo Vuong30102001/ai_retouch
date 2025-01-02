@@ -1,21 +1,20 @@
 import 'dart:typed_data';
 
 import 'package:ai_retouch/features/restore_old_picture/presentation/cubit/cubit/restore_old_picture_cubit.dart';
-import 'package:ai_retouch/features/restore_old_picture/presentation/screen/restored_image_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RestoreWatchAdsScreen extends StatefulWidget {
+class RestoreCheckScreen extends StatefulWidget {
   final AssetEntity media;
-  const RestoreWatchAdsScreen({super.key, required this.media});
+  const RestoreCheckScreen({super.key, required this.media});
 
   @override
-  State<RestoreWatchAdsScreen> createState() => _RestoreWatchAdsScreenState();
+  State<RestoreCheckScreen> createState() => _RestoreCheckScreenState();
 }
 
-class _RestoreWatchAdsScreenState extends State<RestoreWatchAdsScreen> {
+class _RestoreCheckScreenState extends State<RestoreCheckScreen> {
   late Future<Uint8List?> imageData;
 
   @override
@@ -106,12 +105,14 @@ class _RestoreWatchAdsScreenState extends State<RestoreWatchAdsScreen> {
               child: Center(
                 child: GestureDetector(
                   onTap: () async {
-                    await context.read<RestoreOldPictureCubit>().restoreImage(widget.media);
-
-                    if (context.mounted) {
-                      Navigator.pop(context);
-
-                      context.read<RestoreOldPictureCubit>().openRestoredImageScreen(context, widget.media);
+                    try {
+                      final restoredImagePath = await context.read<RestoreOldPictureCubit>().restoreImage(widget.media);
+                      if (restoredImagePath.isNotEmpty && context.mounted) {
+                        Navigator.pop(context);
+                        context.read<RestoreOldPictureCubit>().openRestoredImageScreen(context, restoredImagePath);
+                      }
+                    } catch (error) {
+                      print('Failed to restore image: $error');
                     }
                   },
                   child: Container(

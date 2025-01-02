@@ -31,11 +31,14 @@ class RestoreOldPictureRepositoryImpl implements RestoreOldPictureRepository{
   }
 
   @override
-  Future<void> restoreImage(String filePath, String token) async {
+  Future<String> restoreImage(String filePath, String token) async {
     try {
-      await restoreOldPictureDataSource.restoreImage(filePath, token);
+      final restoredImagePath = await restoreOldPictureDataSource.restoreImage(filePath, token);
+
+      return restoredImagePath;
     } catch (e) {
       throw Exception('Error restoring image: $e');
     }
   }
+
 }
