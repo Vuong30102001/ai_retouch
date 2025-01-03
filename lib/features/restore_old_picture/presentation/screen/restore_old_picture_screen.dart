@@ -106,10 +106,11 @@ class _RestoreOldPictureScreenState extends State<RestoreOldPictureScreen> {
                             return const Center(child: Text('Error loading image'));
                           }
                           if(snapshot.hasData){
-                            Uint8List? imageBytes = snapshot.data;
-                            if(imageBytes != null){
+                            Uint8List? mediaImage = snapshot.data;
+
+                            if(mediaImage != null){
                               return Image.memory(
-                                imageBytes,
+                                mediaImage,
                                 fit: BoxFit.fitWidth,
                               );
                             }

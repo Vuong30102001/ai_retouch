@@ -1,0 +1,150 @@
+import 'dart:typed_data';
+
+import 'package:ai_retouch/features/restore_old_picture/presentation/cubit/cubit/restore_old_picture_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class RestoreImageAssetCheckScreen extends StatefulWidget {
+  final String assetImagePath;
+  const RestoreImageAssetCheckScreen({super.key, required this.assetImagePath});
+
+  @override
+  State<RestoreImageAssetCheckScreen> createState() => _RestoreImageAssetCheckScreenState();
+}
+
+class _RestoreImageAssetCheckScreenState extends State<RestoreImageAssetCheckScreen> {
+  late Future<Uint8List?> imageData;
+
+  @override
+  void initState(){
+    super.initState();
+    imageData = context.read<RestoreOldPictureCubit>().convertAssetPathToUint8List(widget.assetImagePath);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.only(top: 41.0),
+        child: Column(
+          children: [
+            Container(
+              width: 375.w,
+              height: 48.w,
+              decoration: BoxDecoration(
+                color: Color(0xFF1A1A1A),
+              ),
+              child: GestureDetector(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 32.w,
+                        height: 32.w,
+                        margin: EdgeInsets.only(left: 20.w),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF1A1A1A),
+                        ),
+                        child: Image.asset('assets/images/BTN.png'),
+                      ),
+                    ],
+                  )
+              ),
+            ),
+            Container(
+              width: 375.w,
+              height: 589.w,
+              decoration: const BoxDecoration(
+                color: Colors.black,
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                    width: 375.w,
+                    height: 400.w,
+                    child: FutureBuilder<Uint8List?>(
+                      future: imageData,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator());
+                        } else if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasError) {
+                            return Center(child: Text('Error load image: ${snapshot.error}'));
+                          }
+                          if (snapshot.hasData) {
+                            Uint8List? imageBytes = snapshot.data;
+                            if (imageBytes != null) {
+                              return Image.memory(
+                                imageBytes,
+                                fit: BoxFit.fitHeight,
+                              );
+                            } else {
+                              return const Center(child: Text('No image data found'));
+                            }
+                          }
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    )
+
+                ),
+              ),
+            ),
+            Container(
+              width: 375.w,
+              height: 80.w,
+              decoration: BoxDecoration(
+                color: Color(0xFF1A1A1A),
+              ),
+              child: Center(
+                  child: GestureDetector(
+                    onTap: () async {
+                      try {
+                        final assetImageFile = await context.read<RestoreOldPictureCubit>().convertAssetPathToFile(widget.assetImagePath);
+
+                        if (!context.mounted) return;
+
+                        final restoredImagePath = await context.read<RestoreOldPictureCubit>().restoreImage(assetImageFile);
+
+                        if (restoredImagePath.isNotEmpty && context.mounted) {
+                          Navigator.pop(context);
+                          context.read<RestoreOldPictureCubit>().openRestoredImageScreen(context, restoredImagePath);
+                        }
+
+                      } catch (error) {
+                        print('Failed to restore image: $error');
+                      }
+                    },
+                    child: Container(
+                      width: 336.w,
+                      height: 48.w,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Continue',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontFamily: 'PlusJakartaSans',
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

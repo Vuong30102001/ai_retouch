@@ -1,10 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
+import 'package:ai_retouch/features/restore_old_picture/presentation/cubit/cubit/restore_old_picture_cubit.dart';
 import 'package:ai_retouch/features/restore_old_picture/presentation/widget/done_header_widget.dart';
 import 'package:ai_retouch/features/restore_old_picture/presentation/widget/done_popup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RestoredImageScreen extends StatelessWidget {
   final String base64Image;
@@ -14,7 +14,7 @@ class RestoredImageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<File>(
-      future: _getImageFile(base64Image),
+      future: context.read<RestoreOldPictureCubit>().convertBase64StrToFile(base64Image),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -48,13 +48,5 @@ class RestoredImageScreen extends StatelessWidget {
         return Center(child: Text('No image found'));
       },
     );
-  }
-
-  Future<File> _getImageFile(String base64Str) async {
-    final bytes = base64Decode(base64Str);
-    final dir = await getTemporaryDirectory();
-    final file = File('${dir.path}/restored_image.jpg');
-    await file.writeAsBytes(bytes);
-    return file;
   }
 }

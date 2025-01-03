@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:ai_retouch/features/restore_old_picture/presentation/cubit/cubit/restore_old_picture_cubit.dart';
+import 'package:ai_retouch/features/restore_old_picture/presentation/screen/restore_image_asset_check_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -93,11 +94,19 @@ class AlbumMediaScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 133.0),
-            child: Container(
+            child: GestureDetector(
+              onTap: (){
+                Navigator.push(
+                    context, 
+                    MaterialPageRoute(builder: (context)=> const RestoreImageAssetCheckScreen(assetImagePath: 'assets/images/restore1.png'))
+                );
+              },
+              child: Container(
                 width: 122.w,
                 height: 122.w,
                 child: Image.asset('assets/images/restore1.png'),
               ),
+            )
             ),
           Padding(
             padding: const EdgeInsets.only(top: 133.0, left: 127.0),
@@ -207,7 +216,7 @@ class AlbumMediaScreen extends StatelessWidget {
 
                               return GestureDetector(
                                 onTap: () async {
-                                  context.read<RestoreOldPictureCubit>().openRestoreOldPictureScreen(context, media);
+                                  context.read<RestoreOldPictureCubit>().openRestoreOldPictureScreen(context, media, 1);
                                 },
                                 child: FutureBuilder<Uint8List?>(
                                   future: media.thumbnailDataWithSize(const ThumbnailSize(200, 200)),

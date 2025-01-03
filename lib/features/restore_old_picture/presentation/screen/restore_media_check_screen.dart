@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:ai_retouch/features/restore_old_picture/presentation/cubit/cubit/restore_old_picture_cubit.dart';
@@ -6,15 +7,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RestoreCheckScreen extends StatefulWidget {
+class RestoreMediaCheckScreen extends StatefulWidget {
   final AssetEntity media;
-  const RestoreCheckScreen({super.key, required this.media});
+  const RestoreMediaCheckScreen({super.key, required this.media});
 
   @override
-  State<RestoreCheckScreen> createState() => _RestoreCheckScreenState();
+  State<RestoreMediaCheckScreen> createState() => _RestoreMediaCheckScreenState();
 }
 
-class _RestoreCheckScreenState extends State<RestoreCheckScreen> {
+class _RestoreMediaCheckScreenState extends State<RestoreMediaCheckScreen> {
   late Future<Uint8List?> imageData;
 
   @override
@@ -106,7 +107,8 @@ class _RestoreCheckScreenState extends State<RestoreCheckScreen> {
                 child: GestureDetector(
                   onTap: () async {
                     try {
-                      final restoredImagePath = await context.read<RestoreOldPictureCubit>().restoreImage(widget.media);
+                      final finalImage = await widget.media.file;
+                      final restoredImagePath = await context.read<RestoreOldPictureCubit>().restoreImage(finalImage!);
                       if (restoredImagePath.isNotEmpty && context.mounted) {
                         Navigator.pop(context);
                         context.read<RestoreOldPictureCubit>().openRestoredImageScreen(context, restoredImagePath);
