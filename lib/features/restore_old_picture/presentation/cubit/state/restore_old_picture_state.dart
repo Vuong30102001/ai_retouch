@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:photo_manager/photo_manager.dart';
 
 class RestoreOldPictureState{
@@ -7,9 +9,11 @@ class RestoreOldPictureState{
   final bool isLoading;
   final int currentPage;
   final int pageSize;
+  final File? imageFile;
   //
   final String? successMessage;
   final String? errorMessage;
+
   RestoreOldPictureState({
     required this.albums,
     required  this.medias,
@@ -19,6 +23,7 @@ class RestoreOldPictureState{
     required this.pageSize,
     this.successMessage,
     this.errorMessage,
+    this.imageFile,
   });
 
   factory RestoreOldPictureState.initial(){
@@ -31,6 +36,7 @@ class RestoreOldPictureState{
         pageSize: 20,
         successMessage: null,
         errorMessage: null,
+        imageFile: null,
     );
   }
 
@@ -43,6 +49,7 @@ class RestoreOldPictureState{
     int? pageSize,
     String? successMessage,
     String? errorMessage,
+    File? imageFile,
   }){
     return RestoreOldPictureState(
       albums: albums ?? this.albums,
@@ -53,6 +60,7 @@ class RestoreOldPictureState{
       pageSize: pageSize ?? this.pageSize,
       successMessage: successMessage,
       errorMessage: errorMessage,
+      imageFile: imageFile,
     );
   }
 }

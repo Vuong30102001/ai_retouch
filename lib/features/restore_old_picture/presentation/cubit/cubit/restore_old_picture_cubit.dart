@@ -135,31 +135,35 @@ class RestoreOldPictureCubit extends Cubit<RestoreOldPictureState> {
     );
   }
 
+
   Future<File> convertBase64StrToFile(String base64Str) async {
     emit(state.copyWith(isLoading: true));
-    try{
+    try {
       final bytes = base64Decode(base64Str);
       final dir = await getTemporaryDirectory();
-      final file = File('${dir.path}/restored_image.jpg');
+
+      final fileName = 'restored_image_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final file = File('${dir.path}/$fileName');
+
       await file.writeAsBytes(bytes);
       await Future.delayed(const Duration(seconds: 2));
       return file;
-    }
-    catch(error, stacktrace){
+    } catch (error, stacktrace) {
       print('Error: $error');
       print('Stacktrace: $stacktrace');
       emit(state.copyWith(errorMessage: 'An error occurred: $error'));
-      rethrow; // Để xử lý lỗi ở nơi gọi hàm
-    }
-    finally {
+      rethrow;
+    } finally {
       emit(state.copyWith(isLoading: false));
     }
   }
 
+
   Future<File> convertAssetPathToFile(String assetPath) async {
     final Uint8List? imageData = await convertAssetPathToUint8List(assetPath);
     final tempDir = await getTemporaryDirectory();
-    final file = File('${tempDir.path}/temp_image.png');
+    final fileName = 'restored_image_${DateTime.now().millisecondsSinceEpoch}.jpg';
+    final file = File('${tempDir.path}/$fileName');
     await file.writeAsBytes(imageData!);
     return file;
   }

@@ -7,17 +7,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class RestoredImageScreen extends StatelessWidget {
+class RestoredImageScreen extends StatefulWidget {
   final String base64Image;
 
   const RestoredImageScreen({super.key, required this.base64Image});
+
+  @override
+  State<RestoredImageScreen> createState() => _RestoredImageScreenState();
+}
+
+class _RestoredImageScreenState extends State<RestoredImageScreen> {
+  late Future<File> _imageFileFuture;
+
+  @override
+  void initState(){
+    super.initState();
+    _imageFileFuture = context.read<RestoreOldPictureCubit>().convertBase64StrToFile(widget.base64Image);
+  }
+
 
   @override
   Widget build(BuildContext context) {
     context.read<DonePopupCubit>().showLoading();
 
     return FutureBuilder<File>(
-      future: context.read<RestoreOldPictureCubit>().convertBase64StrToFile(base64Image),
+      future: _imageFileFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
@@ -46,7 +60,6 @@ class RestoredImageScreen extends StatelessWidget {
           );
         } else if (snapshot.hasData) {
           context.read<DonePopupCubit>().showSuccess('Restore Old Pic done! Hope you enjoy it');
-          final imageFile = snapshot.data!;
           return Scaffold(
             body: Stack(
               children: [
@@ -104,7 +117,7 @@ class RestoredImageScreen extends StatelessWidget {
                     width: 375.w,
                     height: 591.w,
                     child: Center(
-                      child: Image.file(imageFile),
+                      child: Image.file(snapshot.data!),
                     )
                   ),
                 ),
@@ -121,3 +134,4 @@ class RestoredImageScreen extends StatelessWidget {
     );
   }
 }
+
