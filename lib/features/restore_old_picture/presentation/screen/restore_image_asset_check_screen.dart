@@ -36,7 +36,7 @@ class _RestoreImageAssetCheckScreenState extends State<RestoreImageAssetCheckScr
                 color: Color(0xFF1A1A1A),
               ),
               child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     Navigator.pop(context);
                   },
                   child: Row(
@@ -106,9 +106,7 @@ class _RestoreImageAssetCheckScreenState extends State<RestoreImageAssetCheckScr
                     onTap: () async {
                       try {
                         final assetImageFile = await context.read<RestoreOldPictureCubit>().convertAssetPathToFile(widget.assetImagePath);
-
                         if (!context.mounted) return;
-
                         final restoredImagePath = await context.read<RestoreOldPictureCubit>().restoreImage(assetImageFile);
 
                         if (restoredImagePath.isNotEmpty && context.mounted) {

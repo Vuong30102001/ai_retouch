@@ -107,22 +107,38 @@ class AlbumMediaScreen extends StatelessWidget {
                 child: Image.asset('assets/images/restore1.png'),
               ),
             )
-            ),
-          Padding(
-            padding: const EdgeInsets.only(top: 133.0, left: 127.0),
-            child: Container(
-              width: 122.w,
-              height: 122.w,
-              child: Image.asset('assets/images/restore2.png'),
-            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 133.0, left: 253.0),
-            child: Container(
-              width: 122.w,
-              height: 122.w,
-              child: Image.asset('assets/images/restore3.png'),
-            ),
+            padding: const EdgeInsets.only(top: 133.0, left: 127.0),
+            child: GestureDetector(
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RestoreImageAssetCheckScreen(assetImagePath: 'assets/images/restore2.png'))
+                );
+              },
+              child: Container(
+                width: 122.w,
+                height: 122.w,
+                child: Image.asset('assets/images/restore2.png'),
+              ),
+            )
+          ),
+          Padding(
+              padding: const EdgeInsets.only(top: 133.0, left: 253.0),
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const RestoreImageAssetCheckScreen(assetImagePath: 'assets/images/restore3.png'))
+                  );
+                },
+                child: Container(
+                  width: 122.w,
+                  height: 122.w,
+                  child: Image.asset('assets/images/restore3.png'),
+                ),
+              )
           ),
           Padding(
               padding: const EdgeInsets.only(top: 279.0),
@@ -204,7 +220,7 @@ class AlbumMediaScreen extends StatelessWidget {
                                   child: Container(
                                     color: Colors.black.withOpacity(0.1), // Màu nền cho icon camera
                                     alignment: Alignment.center,
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.camera_alt,
                                       size: 50,
                                       color: Colors.white,
@@ -216,15 +232,15 @@ class AlbumMediaScreen extends StatelessWidget {
 
                               return GestureDetector(
                                 onTap: () async {
-                                  context.read<RestoreOldPictureCubit>().openRestoreOldPictureScreen(context, media, 1);
+                                  context.read<RestoreOldPictureCubit>().openRestoreOldPictureScreen(context, media);
                                 },
                                 child: FutureBuilder<Uint8List?>(
                                   future: media.thumbnailDataWithSize(const ThumbnailSize(200, 200)),
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState == ConnectionState.waiting) {
-                                      return CircularProgressIndicator();
+                                      return const CircularProgressIndicator();
                                     } else if (snapshot.hasError || !snapshot.hasData) {
-                                      return Icon(Icons.error);
+                                      return const Icon(Icons.error);
                                     } else {
                                       return Image.memory(
                                         snapshot.data!, // Hiển thị ảnh từ Uint8List

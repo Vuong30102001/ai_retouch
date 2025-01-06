@@ -108,6 +108,7 @@ class _RestoreMediaCheckScreenState extends State<RestoreMediaCheckScreen> {
                   onTap: () async {
                     try {
                       final finalImage = await widget.media.file;
+                      if (!context.mounted) return;
                       final restoredImagePath = await context.read<RestoreOldPictureCubit>().restoreImage(finalImage!);
                       if (restoredImagePath.isNotEmpty && context.mounted) {
                         Navigator.pop(context);

@@ -12,7 +12,9 @@ import 'package:ai_retouch/features/restore_old_picture/data/data_source/restore
 import 'package:ai_retouch/features/restore_old_picture/data/repositories/restore_old_picture_repository_impl.dart';
 import 'package:ai_retouch/features/restore_old_picture/domain/repositories/restore_old_picture_repository.dart';
 import 'package:ai_retouch/features/restore_old_picture/domain/use_case/restore_old_picture_use_case.dart';
+import 'package:ai_retouch/features/restore_old_picture/presentation/cubit/cubit/done_popup_cubit.dart';
 import 'package:ai_retouch/features/restore_old_picture/presentation/cubit/cubit/restore_old_picture_cubit.dart';
+import 'package:ai_retouch/features/restore_old_picture/presentation/widget/done_popup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -89,6 +91,10 @@ class _MyAppState extends State<MyApp> {
               create: (_) => SubscriptionCubit(),
             child: const ProButtonWidget(),
           ),
+          BlocProvider<DonePopupCubit>(
+            create: (_) => DonePopupCubit(),
+            child: const DonePopupWidget(),
+          )
         ],
         child: ScreenUtilInit(
           designSize: const Size(375, 812),

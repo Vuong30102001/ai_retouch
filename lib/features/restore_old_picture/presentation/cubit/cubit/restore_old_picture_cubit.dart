@@ -87,23 +87,7 @@ class RestoreOldPictureCubit extends Cubit<RestoreOldPictureState> {
     );
   }
 
-  void openRestoreOldPictureScreen(BuildContext context, AssetEntity media, int restoreOption){
-    String assetImagePath;
-    switch (restoreOption) {
-      case 1:
-        assetImagePath = 'assets/images/restore1.png';
-        break;
-      case 2:
-        assetImagePath = 'assets/images/restore2.png';
-        break;
-      case 3:
-        assetImagePath = 'assets/images/restore3.png';
-        break;
-      default:
-        assetImagePath = 'assets/images/restore1.png';
-        break;
-    }
-
+  void openRestoreOldPictureScreen(BuildContext context, AssetEntity media){
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -141,6 +125,7 @@ class RestoreOldPictureCubit extends Cubit<RestoreOldPictureState> {
   }
 
 
+
   void openRestoredImageScreen(BuildContext context, String restoredImagePath) {
     Navigator.push(
       context,
@@ -157,6 +142,7 @@ class RestoreOldPictureCubit extends Cubit<RestoreOldPictureState> {
       final dir = await getTemporaryDirectory();
       final file = File('${dir.path}/restored_image.jpg');
       await file.writeAsBytes(bytes);
+      await Future.delayed(const Duration(seconds: 2));
       return file;
     }
     catch(error, stacktrace){
