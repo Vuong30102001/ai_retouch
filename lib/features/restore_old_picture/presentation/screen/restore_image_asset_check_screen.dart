@@ -111,7 +111,7 @@ class _RestoreImageAssetCheckScreenState extends State<RestoreImageAssetCheckScr
 
                         if (restoredImagePath.isNotEmpty && context.mounted) {
                           Navigator.pop(context);
-                          context.read<RestoreOldPictureCubit>().openRestoredImageScreen(context, restoredImagePath);
+                          context.read<RestoreOldPictureCubit>().openRestoredImageScreen(context, restoredImagePath, assetImageFile);
                         }
 
                       } catch (error) {

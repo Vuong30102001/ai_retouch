@@ -9,8 +9,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RestoredImageScreen extends StatefulWidget {
   final String base64Image;
+  final File originalImage;
 
-  const RestoredImageScreen({super.key, required this.base64Image});
+  const RestoredImageScreen({super.key, required this.base64Image, required this.originalImage});
 
   @override
   State<RestoredImageScreen> createState() => _RestoredImageScreenState();
@@ -18,120 +19,160 @@ class RestoredImageScreen extends StatefulWidget {
 
 class _RestoredImageScreenState extends State<RestoredImageScreen> {
   late Future<File> _imageFileFuture;
+  double _dividerPosition = 0.5;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _imageFileFuture = context.read<RestoreOldPictureCubit>().convertBase64StrToFile(widget.base64Image);
   }
-
 
   @override
   Widget build(BuildContext context) {
     context.read<DonePopupCubit>().showLoading();
 
-    return FutureBuilder<File>(
-      future: _imageFileFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            body: Stack(
-              children: [
-                const Center(child: CircularProgressIndicator()),
-                Positioned(
-                  top: 680.w,
-                  child: const DonePopupWidget(),
-                ),
-              ],
-            ),
-          );
-        } else if (snapshot.hasError) {
-          context.read<DonePopupCubit>().showError('Failed to restore image');
-          return Scaffold(
-            body: Stack(
-              children: [
-                Center(child: Text('Error: ${snapshot.error}')),
-                Positioned(
-                  top: 680.w,
-                  child: const DonePopupWidget(),
-                ),
-              ],
-            ),
-          );
-        } else if (snapshot.hasData) {
-          context.read<DonePopupCubit>().showSuccess('Restore Old Pic done! Hope you enjoy it');
-          return Scaffold(
-            body: Stack(
-              children: [
-                Positioned(
-                  top: 41.w,
-                  child: const DoneHeaderWidget(),
-                ),
-                Positioned(
-                  top: 109.w,
-                  left: 20.w,
-                  child: Container(
-                    width: 58.w,
-                    height: 24.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.0),
-                      color: Colors.white.withOpacity(0.5)
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Before',
-                        style: TextStyle(
-                          fontFamily: 'PlusJakartaSans',
-                          fontSize: 12.sp,
-                          color: Colors.white,
+    return Scaffold(
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 41.w),
+            child: const DoneHeaderWidget(),
+          ),
+          Expanded(
+            child: FutureBuilder<File>(
+              future: _imageFileFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Stack(
+                    children: [
+                      const Center(child: CircularProgressIndicator()),
+                      Positioned(
+                        top: 680.w,
+                        child: const DonePopupWidget(),
+                      ),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  context.read<DonePopupCubit>().showError('Failed to restore image');
+                  return Stack(
+                    children: [
+                      Center(child: Text('Error: ${snapshot.error}')),
+                      Positioned(
+                        top: 680.w,
+                        child: const DonePopupWidget(),
+                      ),
+                    ],
+                  );
+                } else if (snapshot.hasData) {
+                  context.read<DonePopupCubit>().showSuccess('Restore Old Pic done! Hope you enjoy it');
+                  return Stack(
+                    children: [
+                      GestureDetector(
+                        onHorizontalDragUpdate: (details) {
+                          setState(() {
+                            _dividerPosition = (_dividerPosition + details.primaryDelta! / MediaQuery.of(context).size.width)
+                                .clamp(0.0, 1.0);
+                          });
+                        },
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: 89.w,
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: 591.w,
+                                child: Image.file(
+                                  snapshot.data!,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 89.w,
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: 591.w,
+                                child: ClipRect(
+                                  clipper: HorizontalClipper(_dividerPosition),
+                                  child: Image.file(
+                                    widget.originalImage,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: MediaQuery.of(context).size.width * _dividerPosition - 2,
+                              top: 89.w,
+                              child: Container(
+                                width: 4.w,
+                                height: 591.w,
+                                color: Colors.white.withOpacity(0.8),
+                              ),
+                            ),
+                            Positioned(
+                              top: 109.w,
+                              left: 20.w,
+                              child: _buildLabel('Before'),
+                            ),
+                            Positioned(
+                              top: 109.w,
+                              left: 297.w,
+                              child: _buildLabel('After'),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 109.w,
-                  left: 297.w,
-                  child: Container(
-                    width: 58.w,
-                    height: 24.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.0),
-                      color: Colors.white.withOpacity(0.5),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Before',
-                        style: TextStyle(
-                          fontFamily: 'PlusJakartaSans',
-                          fontSize: 12.sp,
-                          color: Colors.white,
-                        ),
+                      Positioned(
+                        top: 680.w,
+                        child: const DonePopupWidget(),
                       ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 89.w,
-                  child: Container(
-                    width: 375.w,
-                    height: 591.w,
-                    child: Center(
-                      child: Image.file(snapshot.data!),
-                    )
-                  ),
-                ),
-                Positioned(
-                  top: 680.w,
-                  child: const DonePopupWidget(),
-                ),
-              ],
+                    ],
+                  );
+                }
+                return Container(); // Fallback nếu không có dữ liệu.
+              },
             ),
-          );
-        }
-        return Center(child: Text('No image found'));
-      },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLabel(String text) {
+    return Container(
+      width: 58.w,
+      height: 24.w,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6.0),
+        color: Colors.white.withOpacity(0.5),
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: 'PlusJakartaSans',
+            fontSize: 12.sp,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }
 
+class HorizontalClipper extends CustomClipper<Rect> {
+  final double dividerPosition;
+
+  HorizontalClipper(this.dividerPosition);
+
+  @override
+  Rect getClip(Size size) {
+    return Rect.fromLTRB(0, 0, size.width * dividerPosition, size.height);
+  }
+
+  @override
+  bool shouldReclip(covariant HorizontalClipper oldClipper) {
+    return dividerPosition != oldClipper.dividerPosition;
+  }
+}

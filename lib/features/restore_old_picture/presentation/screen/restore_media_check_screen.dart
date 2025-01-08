@@ -112,7 +112,7 @@ class _RestoreMediaCheckScreenState extends State<RestoreMediaCheckScreen> {
                       final restoredImagePath = await context.read<RestoreOldPictureCubit>().restoreImage(finalImage!);
                       if (restoredImagePath.isNotEmpty && context.mounted) {
                         Navigator.pop(context);
-                        context.read<RestoreOldPictureCubit>().openRestoredImageScreen(context, restoredImagePath);
+                        context.read<RestoreOldPictureCubit>().openRestoredImageScreen(context, restoredImagePath, finalImage);
                       }
                     } catch (error) {
                       print('Failed to restore image: $error');
