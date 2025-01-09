@@ -1,7 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:ai_retouch/features/restore_old_picture/presentation/cubit/cubit/done_popup_cubit.dart';
 import 'package:ai_retouch/features/restore_old_picture/presentation/cubit/cubit/restore_old_picture_cubit.dart';
-import 'package:ai_retouch/features/restore_old_picture/presentation/screen/restored_image_export_screen.dart';
 import 'package:ai_retouch/features/restore_old_picture/presentation/widget/done_popup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,24 +10,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../widget/save_popup_widget.dart';
 
-class RestoredImageScreen extends StatefulWidget {
+class RestoredImageExportScreen extends StatefulWidget {
   final String base64Image;
   final File originalImage;
 
-  const RestoredImageScreen({super.key, required this.base64Image, required this.originalImage});
+  const RestoredImageExportScreen({super.key, required this.base64Image, required this.originalImage});
 
   @override
-  State<RestoredImageScreen> createState() => _RestoredImageScreenState();
+  State<RestoredImageExportScreen> createState() => _RestoredImageExportScreenState();
 }
 
-class _RestoredImageScreenState extends State<RestoredImageScreen> {
+class _RestoredImageExportScreenState extends State<RestoredImageExportScreen> {
   late Future<File> _imageFileFuture;
   double _dividerPosition = 0.5;
+  late Uint8List adjustImage;
 
   @override
   void initState() {
     super.initState();
     _imageFileFuture = context.read<RestoreOldPictureCubit>().convertBase64StrToFile(widget.base64Image);
+    adjustImage = base64Decode(widget.base64Image);
   }
 
   @override
@@ -63,13 +66,7 @@ class _RestoredImageScreenState extends State<RestoredImageScreen> {
                       padding: EdgeInsets.only(right: 20.w),
                       child: GestureDetector(
                         onTap: (){
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => RestoredImageExportScreen(
-                                  base64Image: widget.base64Image,
-                                  originalImage: widget.originalImage,
-                              ))
-                          );
+
                         },
                         child: Container(
                             width: 70.w,
@@ -78,7 +75,11 @@ class _RestoredImageScreenState extends State<RestoredImageScreen> {
                               borderRadius: BorderRadius.circular(32.0),
                               color: Colors.blue,
                             ),
-                            child: Center(
+                            child: GestureDetector(
+                              onTap: (){
+
+                              },
+                              child: Center(
                                 child: Text(
                                   'Save',
                                   textAlign: TextAlign.center,
@@ -91,13 +92,14 @@ class _RestoredImageScreenState extends State<RestoredImageScreen> {
                               ),
                             )
                         ),
-                      ),
+                      )
+                  ),
                 ],
               ),
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 4,
             child: FutureBuilder<File>(
               future: _imageFileFuture,
               builder: (context, snapshot) {
@@ -170,23 +172,6 @@ class _RestoredImageScreenState extends State<RestoredImageScreen> {
                               ),
                             ),
                             Positioned(
-                              left: MediaQuery.of(context).size.width * _dividerPosition - 12, // Điều chỉnh vị trí của icon
-                              top: 89.w + (591.w / 2) - 12, // Căn giữa theo chiều dọc
-                              child: Container(
-                                width: 24.w,
-                                height: 24.w,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                ),
-                                child: Icon(
-                                  Icons.arrow_forward, // Icon bạn muốn hiển thị
-                                  size: 16.w,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Positioned(
                               top: 109.w,
                               left: 20.w,
                               child: _buildLabel('Before'),
@@ -210,9 +195,15 @@ class _RestoredImageScreenState extends State<RestoredImageScreen> {
               },
             ),
           ),
-          const Expanded(
-            flex: 1,
-            child: DonePopupWidget()
+          Expanded(
+            flex: 2,
+            child: Container(
+              width: 375.w,
+              height: 168.w,
+              child: SavePopupWidget(
+                  adjustImage: adjustImage
+              ),
+            ),
           )
         ],
       ),

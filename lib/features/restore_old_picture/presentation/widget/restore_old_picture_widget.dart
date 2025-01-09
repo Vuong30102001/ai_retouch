@@ -1,4 +1,4 @@
-import 'package:ai_retouch/features/restore_old_picture/presentation/screen/album_media_screen.dart';
+import 'package:ai_retouch/features/restore_old_picture/presentation/screen/album_restore_media_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,7 +16,7 @@ class RestoreOldPictureWidget extends StatelessWidget {
         onTap: (){
           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AlbumMediaScreen()),
+              MaterialPageRoute(builder: (context) => const AlbumRestoreMediaScreen()),
           );
         },
         child: Container(

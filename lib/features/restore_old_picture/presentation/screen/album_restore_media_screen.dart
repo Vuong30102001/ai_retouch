@@ -11,8 +11,8 @@ import 'package:photo_manager/photo_manager.dart';
 import '../cubit/state/restore_old_picture_state.dart';
 import 'image_preview_screen.dart';
 
-class AlbumMediaScreen extends StatelessWidget {
-  const AlbumMediaScreen({super.key});
+class AlbumRestoreMediaScreen extends StatelessWidget {
+  const AlbumRestoreMediaScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

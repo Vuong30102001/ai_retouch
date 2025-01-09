@@ -1,4 +1,4 @@
-import 'package:ai_retouch/features/enhance_photo/presentation/screen/album_media_screen.dart';
+import 'package:ai_retouch/features/enhance_photo/presentation/screen/album_enhance_media_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,7 +15,7 @@ class EnhancePhotoWidget extends StatelessWidget {
       ),
       child: GestureDetector(
         onTap: () async {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AlbumMediaScreen()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AlbumEnhanceMediaScreen()));
         },
         child: Container(
           width: 163.w,

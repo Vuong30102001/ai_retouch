@@ -130,7 +130,7 @@ class RestoreOldPictureCubit extends Cubit<RestoreOldPictureState> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => RestoredImageScreen(base64Image: restoredImagePath, originalImage: originalImage,),
+        builder: (context) => RestoredImageScreen(base64Image: restoredImagePath, originalImage: originalImage),
       ),
     );
   }

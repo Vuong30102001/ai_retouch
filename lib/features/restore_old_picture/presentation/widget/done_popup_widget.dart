@@ -32,8 +32,35 @@ class DonePopupWidget extends StatelessWidget {
       width: 375.w,
       height: 80.w,
       color: const Color(0xFF1A1A1A),
-      child: const Center(
-        child: CircularProgressIndicator(color: Colors.white),
+      child: Center(
+        child: Container(
+          width: 77.w,
+          height: 16.w,
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 16.w,
+                  height: 16.w,
+                  child: const CircularProgressIndicator(color: Colors.white),
+                ),
+                SizedBox(
+                  width: 55.w,
+                  height: 18.w,
+                  child: Text(
+                    'Loading',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontFamily: 'PlusJakartaSans',
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              ],
+            )
+          ),
+        )
       ),
     );
   }
@@ -78,17 +105,35 @@ class DonePopupWidget extends StatelessWidget {
     return Container(
       width: 375.w,
       height: 80.w,
-      color: Colors.red,
+      color: const Color(0xFF1A1A1A),
       child: Center(
-        child: Text(
-          error,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 14.sp,
-            fontFamily: 'PlusJakartaSans',
+        child: Container(
+          width: 276.w,
+          height: 16.w,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 16.w,
+                height: 16.w,
+                child: Image.asset('assets/images/Error.png'),
+              ),
+              Container(
+                width: 254.w,
+                height: 10.w,
+                child: Text(
+                  'An error has occurred, please try again',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                    fontFamily: 'PlusJakartaSans',
+                  ),
+                ),
+              )
+            ],
           ),
-        ),
+        )
       ),
     );
   }

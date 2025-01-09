@@ -8,8 +8,8 @@ import 'dart:typed_data';
 import '../cubit /state/enhance_photo_state.dart';
 import 'original_photo_screen.dart';
 
-class AlbumMediaScreen extends StatelessWidget {
-  const AlbumMediaScreen({super.key});
+class AlbumEnhanceMediaScreen extends StatelessWidget {
+  const AlbumEnhanceMediaScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

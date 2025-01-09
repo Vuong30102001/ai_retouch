@@ -36,27 +36,38 @@ class RestoreOldPictureDataSource{
 
   final String bareUrl = 'https://picfixer.app/api/em-token/get-token';
   final String restoreUrl = 'https://be-prod-1.snapedit.app/api/restore/v1/';
+
   Future<String?> getToken() async {
     try {
+      // Gửi yêu cầu GET tới API
       final response = await http.get(Uri.parse(bareUrl));
 
+      // In thông tin phản hồi để debug
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
 
+      // Kiểm tra trạng thái phản hồi
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        // Giải mã JSON
+        final Map<String, dynamic> body = jsonDecode(response.body);
 
-        if (data.containsKey('data') && data['data'].containsKey('em_token')) {
-          return data['data']['em_token'];
+        // Kiểm tra cấu trúc JSON và lấy token
+        if (body['data'] != null && body['data']['em_token'] != null) {
+          final token = body['data']['em_token'];
+          print('Token fetched: $token');
+          return token;
         } else {
-          print('No "em_token" found in response');
+          print('Invalid response structure: $body');
         }
       } else {
-        print('Failed to get token: ${response.statusCode}');
+        print('Failed to get token. Status: ${response.statusCode}');
       }
-    } catch (e) {
+    } catch (e, stacktrace) {
+      // Bắt lỗi và log thông tin stacktrace để debug
       print('Error fetching token: $e');
+      print('Stacktrace: $stacktrace');
     }
+
     return null;
   }
 
