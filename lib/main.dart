@@ -1,5 +1,10 @@
 import 'dart:async';
 
+import 'package:ai_retouch/features/cartoon_ai/data/data_source/cartoon_ai_data_source.dart';
+import 'package:ai_retouch/features/cartoon_ai/data/repository_impl/cartoo_ai_repository_impl.dart';
+import 'package:ai_retouch/features/cartoon_ai/domain/repository/cartoon_ai_repository.dart';
+import 'package:ai_retouch/features/cartoon_ai/domain/use_case/cartoon_ai_use_case.dart';
+import 'package:ai_retouch/features/cartoon_ai/presentation/cubit/cubit/cartoon_ai_cubit.dart';
 import 'package:ai_retouch/features/enhance_photo/data/data_source/enhance_photo_data_source.dart';
 import 'package:ai_retouch/features/enhance_photo/data/repositories/enhance_photo_repository_impl.dart';
 import 'package:ai_retouch/features/enhance_photo/domain/repositories/enhance_photo_repository.dart';
@@ -79,6 +84,21 @@ class _MyAppState extends State<MyApp> {
             create: (context) => RestoreOldPictureCubit(
               repository: context.read<RestoreOldPictureRepository>(),
             )..fetchAlbums()
+          ),
+          Provider<CartoonAiRepository>(
+              create: (context) => CartoonAiRepositoryImpl(
+                  CartoonAiDataSource()
+              ),
+          ),
+          Provider<CartoonAiUseCase>(
+              create: (context) => CartoonAiUseCase(
+                  context.read<CartoonAiRepository>(),
+              ),
+          ),
+          Provider<CartoonAiCubit>(
+            create: (context) => CartoonAiCubit(
+                cartoonAiUseCase: context.read<CartoonAiUseCase>(),
+            )..fetchAlbums(),
           ),
           Provider<RemoveObjectRepository>(
               create: (context) => RemoveObjectRepositoryImpl(removeObjectDataSource: RemoveObjectDataSource()),

@@ -1,4 +1,5 @@
 import 'package:ai_retouch/core/utils/coming_soon/coming_soon_helper.dart';
+import 'package:ai_retouch/features/cartoon_ai/presentation/screen/album_cartoon_media_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,7 +16,12 @@ class CartoonAiWidget extends StatelessWidget {
         left: 20.w,
       ),
       child: GestureDetector(
-        onTap: () => ComingSoonHelper.showComingSoonDialog(context),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AlbumCartoonMediaScreen()),
+          );
+        },
         child: Container(
             width: 101.w,
             height: 64.w,
