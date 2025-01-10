@@ -22,6 +22,10 @@ class CartoonAiModel{
 
   Map<String, dynamic> toJson() => _$CartoonAiModelToJson(this);
 
+  CartoonAiEntity toEntity(){
+    return CartoonAiEntity(id: id, thumbnail: thumbnail, mediaType: mediaType);
+  }
+
   static MediaType _mapStringToMediaType(dynamic type){
     if(type is int){
       switch(type){
