@@ -9,8 +9,4 @@ class CartoonAiUseCase{
   Future<List<AssetPathEntity>> getAlbums() async {
     return cartoonAiRepository.fetchAlbums();
   }
-
-  Future<List<CartoonAiEntity>> getMedias(int page, int size) async {
-    return cartoonAiRepository.fetchMedias(page, size);
-  }
 }
