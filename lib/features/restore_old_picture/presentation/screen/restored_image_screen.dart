@@ -172,18 +172,10 @@ class _RestoredImageScreenState extends State<RestoredImageScreen> {
                             Positioned(
                               left: MediaQuery.of(context).size.width * _dividerPosition - 12, // Điều chỉnh vị trí của icon
                               top: 89.w + (591.w / 2) - 12, // Căn giữa theo chiều dọc
-                              child: Container(
-                                width: 24.w,
-                                height: 24.w,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                ),
-                                child: Icon(
-                                  Icons.arrow_forward, // Icon bạn muốn hiển thị
-                                  size: 16.w,
-                                  color: Colors.black,
-                                ),
+                              child: SizedBox(
+                                width: 21.w,
+                                height: 21.w,
+                                child: Image.asset('assets/images/clipper.png')
                               ),
                             ),
                             Positioned(
