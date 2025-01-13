@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:ai_retouch/features/cartoon_ai/presentation/cubit/cubit/cartoon_ai_cubit.dart';
 import 'package:ai_retouch/features/cartoon_ai/presentation/cubit/state/cartoon_ai_state.dart';
+import 'package:ai_retouch/features/cartoon_ai/presentation/screen/cartoon_ai_pick_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -199,6 +200,10 @@ class AlbumCartoonMediaScreen extends StatelessWidget {
                                       if(image != null){
                                         final pickedImage = File(image.path);
                                         // additional trans pickedImage to cartoon ai screen
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => CartoonAiPickScreen(imagePicked: pickedImage,)),
+                                        );
                                       }
                                       else
                                         {
@@ -218,8 +223,12 @@ class AlbumCartoonMediaScreen extends StatelessWidget {
                                 }
                                 final media = state.media[index - 1];
                                 return GestureDetector(
-                                  onTap: (){
-                                    
+                                  onTap: () async {
+                                    final imagePicked = await media.originFile;
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => CartoonAiPickScreen(imagePicked: imagePicked!))
+                                    );
                                   },
                                   child: FutureBuilder<Uint8List?>(
                                       future: media.thumbnailDataWithSize(const ThumbnailSize(200, 200)),

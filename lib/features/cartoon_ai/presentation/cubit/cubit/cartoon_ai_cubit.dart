@@ -58,4 +58,15 @@ class CartoonAiCubit extends Cubit<CartoonAiState>{
     ));
     fetchMedias(selectedAlbum);
   }
+
+  Future<void> fetchStyles() async {
+    emit(state.copyWith(isLoadingStyles: true));
+    try{
+      final styles = await cartoonAiUseCase.getStyles();
+      emit(state.copyWith(isLoadingStyles: false, styles: styles));
+    }
+    catch(e){
+      emit(state.copyWith(isLoadingStyles: false, errorMessage: e.toString()));
+    }
+  }
 }

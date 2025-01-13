@@ -19,48 +19,45 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   late Timer _timer;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
+    _startAutoScroll(_scrollController_1);
+    _startAutoScroll(_scrollController_2, reverse: true);
+  }
 
-    _timer = Timer.periodic(Duration(milliseconds: 50), (timer){
-      if(_scrollController_1.hasClients){
-        double maxScroll = _scrollController_1.position.maxScrollExtent;
-        double currentScroll = _scrollController_1.position.pixels;
+  void _startAutoScroll(ScrollController controller, {bool reverse = false}) {
+    const double scrollStep = 2.0;
+    const Duration scrollDuration = Duration(milliseconds: 50);
 
-        if(currentScroll >= maxScroll){
-          _scrollController_1.jumpTo(0);
-        }
-        else
-          {
-            _scrollController_1.animateTo(
-                currentScroll + 5,
-                duration: const Duration(milliseconds: 100),
-                curve: Curves.linear,
-            );
+    _timer = Timer.periodic(scrollDuration, (Timer timer) {
+      if (controller.hasClients) {
+        double maxScrollExtent = controller.position.maxScrollExtent;
+        double minScrollExtent = controller.position.minScrollExtent;
+        double currentOffset = controller.offset;
+
+        if (reverse) {
+          // Cuộn ngược lại
+          double newOffset = currentOffset - scrollStep;
+          if (newOffset <= minScrollExtent) {
+            controller.jumpTo(maxScrollExtent);
+          } else {
+            controller.jumpTo(newOffset);
           }
-      }
-
-      if(_scrollController_2.hasClients){
-        double maxScroll = _scrollController_2.position.maxScrollExtent;
-        double currentScroll = _scrollController_2.position.pixels;
-
-        if(currentScroll >= maxScroll){
-          _scrollController_2.jumpTo(0);
-        }
-        else
-        {
-          _scrollController_2.animateTo(
-            currentScroll + 5,
-            duration: const Duration(milliseconds: 100),
-            curve: Curves.linear,
-          );
+        } else {
+          // Cuộn xuôi
+          double newOffset = currentOffset + scrollStep;
+          if (newOffset >= maxScrollExtent) {
+            controller.jumpTo(minScrollExtent);
+          } else {
+            controller.jumpTo(newOffset);
+          }
         }
       }
     });
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _timer.cancel();
     _scrollController_1.dispose();
     _scrollController_2.dispose();
@@ -82,11 +79,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.push(
-                            context, 
-                            MaterialPageRoute(builder: (context) => const AlbumRestoreMediaScreen())
-                        );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AlbumRestoreMediaScreen()));
                       },
                       child: SizedBox(
                         width: 90.w,
@@ -113,60 +110,60 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       width: 90.w,
                       height: 90.w,
                       child: Image.asset('assets/images/remove_background.png'),
-                    )
+                    ),
                   ],
-                )
+                ),
               ),
             ),
             SingleChildScrollView(
               controller: _scrollController_2,
               scrollDirection: Axis.horizontal,
               child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 90.w,
-                        height: 90.w,
-                        child: Image.asset('assets/images/edit_background.png'),
-                      ),
-                      SizedBox(
-                        width: 90.w,
-                        height: 90.w,
-                        child: Image.asset('assets/images/remove_wire.png'),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const AlbumEnhanceMediaScreen())
-                          );
-                        },
-                        child: SizedBox(
-                          width: 90.w,
-                          height: 90.w,
-                          child: Image.asset('assets/images/enhance_photo.png'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 90.w,
-                        height: 90.w,
-                        child: Image.asset('assets/images/remove_text.png'),
-                      ),
-                      SizedBox(
-                        width: 90.w,
-                        height: 90.w,
-                        child: Image.asset('assets/images/cartoon_ai.png'),
-                      )
-                    ],
-                  )
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 90.w,
+                    height: 90.w,
+                    child: Image.asset('assets/images/edit_background.png'),
+                  ),
+                  SizedBox(
+                    width: 90.w,
+                    height: 90.w,
+                    child: Image.asset('assets/images/remove_wire.png'),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AlbumEnhanceMediaScreen()));
+                    },
+                    child: SizedBox(
+                      width: 90.w,
+                      height: 90.w,
+                      child: Image.asset('assets/images/enhance_photo.png'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 90.w,
+                    height: 90.w,
+                    child: Image.asset('assets/images/remove_text.png'),
+                  ),
+                  SizedBox(
+                    width: 90.w,
+                    height: 90.w,
+                    child: Image.asset('assets/images/cartoon_ai.png'),
+                  ),
+                ],
               ),
+            ),
           ],
         ),
         Positioned(
           top: 52.w,
           left: 20.w,
           child: GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
             child: Container(
@@ -195,7 +192,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   color: Colors.white,
                 ),
               ),
-            )
+            ),
           ),
         ),
         Positioned(
@@ -252,107 +249,107 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             ),
             child: Stack(
               children: [
-                    Positioned(
-                      top: 16.0,
-                      left: 19.0,
-                      child: Container(
-                        width: 337.w,
-                        height: 48.w,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(44.0),
-                          color: Colors.white.withOpacity(0.02),
-                        ),
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: 102.w,
-                                height: 15.w,
-                                child: Padding(
-                                    padding: const EdgeInsets.only(left: 20),
-                                  child: Text(
-                                    '3-Day free Trial',
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontFamily: 'PlusJakartaSans',
-                                      color: Colors.white.withOpacity(0.8),
-                                    ),
-                                  ),
-                                )
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20),
-                                child: SizedBox(
-                                    width: 61.w,
-                                    height: 40.w,
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'only \$ 2.99',
-                                            style: TextStyle(
-                                              fontSize: 12.sp,
-                                              fontFamily: 'PlusJakartaSans',
-                                              color: Colors.white.withOpacity(0.8),
-                                            ),
-                                          ),
-                                          Text(
-                                            'per week',
-                                            style: TextStyle(
-                                              fontSize: 12.sp,
-                                              fontFamily: 'PlusJakartaSans',
-                                              color: Colors.white.withOpacity(0.8),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ),
+                Positioned(
+                  top: 16.0,
+                  left: 19.0,
+                  child: Container(
+                    width: 337.w,
+                    height: 48.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(44.0),
+                      color: Colors.white.withOpacity(0.02),
                     ),
-                    SizedBox(height: 5.w,),
-                    Positioned(
-                        top: 76.0,
-                        left: 19.0,
-                      child: Container(
-                        width: 336.w,
-                        height: 48.w,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            gradient: LinearGradient(
-                              colors: [
-                                Color(0xFF2F80ED),
-                                Color(0xFF1B4987),
-                              ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            )
-                        ),
-                        child: Center(
-                          child: SizedBox(
-                            width: 62.w,
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 102.w,
                             height: 15.w,
-                            child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20),
                               child: Text(
-                                'Continue',
+                                '3-Day free Trial',
                                 style: TextStyle(
-                                  fontFamily: 'PlusJakartaSans',
                                   fontSize: 14.sp,
-                                  color: Colors.white,
+                                  fontFamily: 'PlusJakartaSans',
+                                  color: Colors.white.withOpacity(0.8),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      )
+                          Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: SizedBox(
+                              width: 61.w,
+                              height: 40.w,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'only \$ 2.99',
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontFamily: 'PlusJakartaSans',
+                                        color: Colors.white.withOpacity(0.8),
+                                      ),
+                                    ),
+                                    Text(
+                                      'per week',
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontFamily: 'PlusJakartaSans',
+                                        color: Colors.white.withOpacity(0.8),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                  ),
+                ),
+                SizedBox(height: 5.w),
+                Positioned(
+                  top: 76.0,
+                  left: 19.0,
+                  child: Container(
+                    width: 336.w,
+                    height: 48.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF2F80ED),
+                          Color(0xFF1B4987),
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                    ),
+                    child: Center(
+                      child: SizedBox(
+                        width: 62.w,
+                        height: 15.w,
+                        child: Center(
+                          child: Text(
+                            'Continue',
+                            style: TextStyle(
+                              fontFamily: 'PlusJakartaSans',
+                              fontSize: 14.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Positioned(
                   top: 128.w,
                   left: 128.w,
@@ -379,7 +376,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 color: Colors.white.withOpacity(0.8),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -417,26 +414,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 158.w,
-                  left: 310.w,
-                  child: SizedBox(
-                    width: 72.w,
-                    height: 15.w,
-                    child: Text(
-                      'Restore',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontFamily: 'PlusJakartaSans',
-                        color: Colors.white.withOpacity(0.5),
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }

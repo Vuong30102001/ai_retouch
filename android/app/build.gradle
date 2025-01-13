@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    implementation 'com.google.android.gms:play-services-ads:22.0.0'  // Thêm dòng này
+    implementation("com.google.android.gms:play-services-ads:23.6.0")
 }
 
 

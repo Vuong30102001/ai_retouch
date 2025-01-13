@@ -1,3 +1,4 @@
+import 'package:ai_retouch/features/cartoon_ai/domain/entity/cartoon_style.dart';
 import 'package:equatable/equatable.dart';
 import 'package:photo_manager/photo_manager.dart';
 
@@ -12,6 +13,8 @@ class CartoonAiState extends Equatable{
   final String? errorMessage;
   final int currentPage;
   final int pageSize;
+  final List<CartoonStyle> styles;
+  final bool isLoadingStyles;
 
   const CartoonAiState({
     required this.isLoadingAlbums,
@@ -24,6 +27,8 @@ class CartoonAiState extends Equatable{
     this.errorMessage,
     required this.currentPage,
     required this.pageSize,
+    required this.styles,
+    required this.isLoadingStyles,
   });
 
   factory CartoonAiState.initial(){
@@ -38,6 +43,8 @@ class CartoonAiState extends Equatable{
         errorMessage: null,
         currentPage: 0,
         pageSize: 20,
+        styles: [],
+      isLoadingStyles: true,
     );
   }
 
@@ -52,6 +59,8 @@ class CartoonAiState extends Equatable{
     String? errorMessage,
     int? currentPage,
     int? pageSize,
+    List<CartoonStyle>? styles,
+    bool? isLoadingStyles,
   }) {
     return CartoonAiState(
         isLoadingAlbums: isLoadingAlbums ?? this.isLoadingAlbums,
@@ -64,6 +73,8 @@ class CartoonAiState extends Equatable{
         errorMessage: errorMessage,
         currentPage: currentPage ?? this.currentPage,
         pageSize: pageSize ?? this.pageSize,
+        styles: styles ?? this.styles,
+        isLoadingStyles: isLoadingStyles ?? this.isLoadingStyles,
     );
   }
 
@@ -79,5 +90,7 @@ class CartoonAiState extends Equatable{
     errorMessage,
     currentPage,
     pageSize,
+    styles,
+    isLoadingStyles,
   ];
 }

@@ -2,6 +2,8 @@ import 'package:ai_retouch/features/cartoon_ai/data/model/cartoon_ai_model.dart'
 import 'package:ai_retouch/features/cartoon_ai/domain/entity/cartoon_ai_entity.dart';
 import 'package:photo_manager/photo_manager.dart';
 
+import '../../domain/entity/cartoon_style.dart';
+
 class CartoonAiDataSource{
   Future<List<AssetPathEntity>> getAlbums() {
     return PhotoManager.getAssetPathList();
@@ -29,5 +31,24 @@ class CartoonAiDataSource{
       default:
         return MediaType.unknown;
     }
+  }
+
+  //function return list styles cartoon ai
+  Future<List<CartoonStyle>> fetchStyles() async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    return [
+      CartoonStyle(uuid: "anime_cute", name: "Anime Cute"),
+      CartoonStyle(uuid: "fpst/wave", name: "Wave Style"),
+      CartoonStyle(uuid: "anime_hot", name: "Anime Hot"),
+      CartoonStyle(uuid: "anime_slay", name: "Anime Slay"),
+    ];
+  }
+
+  //function update image & return String Path updated image
+  Future<String> uploadImage(String imagePath, String styleId) async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    return "https://api.com/cartoon/${styleId}_image.jpg";
   }
 }

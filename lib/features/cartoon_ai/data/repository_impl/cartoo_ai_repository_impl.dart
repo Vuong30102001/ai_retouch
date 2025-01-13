@@ -3,6 +3,8 @@ import 'package:ai_retouch/features/cartoon_ai/domain/entity/cartoon_ai_entity.d
 import 'package:ai_retouch/features/cartoon_ai/domain/repository/cartoon_ai_repository.dart';
 import 'package:photo_manager/photo_manager.dart';
 
+import '../../domain/entity/cartoon_style.dart';
+
 class CartoonAiRepositoryImpl implements CartoonAiRepository{
   final CartoonAiDataSource cartoonAiDataSource;
 
@@ -19,5 +21,15 @@ class CartoonAiRepositoryImpl implements CartoonAiRepository{
     return medias.map((media){
       return media.toEntity();
     }).toList();
+  }
+
+  @override
+  Future<List<CartoonStyle>> fetchStyles() async {
+    return cartoonAiDataSource.fetchStyles();
+  }
+
+  @override
+  Future<String> uploadImage(String imagePath, String styleId) async {
+    return cartoonAiDataSource.uploadImage(imagePath, styleId);
   }
 }

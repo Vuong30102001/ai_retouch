@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _interstitialAdManager = InterstitialAdManager(
         adUnitId: Platform.isAndroid
-            ? 'ca-app-pub-3940256099942544/1033173712'
+            ? 'ca-app-pub-2475421127366450/2267516829'
             : 'ca-app-pub-3940256099942544/4411468910',
     );
     _interstitialAdManager.loadInterstitialAd();
